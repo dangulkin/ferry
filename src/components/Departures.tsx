@@ -102,7 +102,7 @@ export default function Departures({ selectedRoute, onSelectRoute }: DeparturesP
 
 	return (
 		<div className="flex flex-col gap-4 h-full bg-gray-50">
-			<DeparturesHeader isSpecificRoute={isSpecificRoute} onBack={onSelectRoute} />
+			<DeparturesHeader isSpecificRoute={isSpecificRoute} routeId={selectedRoute} onBack={onSelectRoute} />
 
 			<AlertBanner
 				month="Jan"

@@ -1,39 +1,7 @@
 import React from 'react';
 import { CaretRightIcon, NavigationArrowIcon } from '@phosphor-icons/react';
+import { ROUTES } from '../data/routes';
 
-const ROUTES = [
-	{
-		id: '1',
-		from: 'Cacilhas',
-		to: 'Cais do Sodré',
-		color: 'bg-yellow-400',
-		icon: true,
-	},
-	{
-		id: '2',
-		from: 'Barreiro',
-		to: 'Terreiro do Paço',
-		color: 'bg-sky-600',
-	},
-	{
-		id: '3',
-		from: 'Montijo',
-		to: 'Cais do Sodré',
-		color: 'bg-pink-600',
-	},
-	{
-		id: '4',
-		from: 'Seixal',
-		to: 'Cais do Sodré',
-		color: 'bg-teal-600',
-	},
-	{
-		id: '5',
-		from: 'Trafaria — Porto Brandão',
-		to: 'Belém',
-		color: 'bg-orange-500',
-	}
-];
 
 export default function Routes({ onSelectRoute }: { onSelectRoute: (route: string) => void }) {
 	return (
