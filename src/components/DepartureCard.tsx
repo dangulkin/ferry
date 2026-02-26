@@ -253,11 +253,11 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 						{/* Top row: timeUntil + destination + bell badge */}
 						<div className="flex justify-between items-center">
 							<div className="flex items-baseline gap-2">
-								<span className={`text-xl font-bold ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
+								<span className={`text-xl font-regular ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
 									{departure.timeUntil}
 								</span>
 								{departure.delay && (
-									<span className="text-sm font-semibold text-red-600">{departure.delay}</span>
+									<span className="text-sm font-semiregular text-red-600">{departure.delay}</span>
 								)}
 							</div>
 							<div className="flex items-center">
@@ -266,7 +266,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 										{departure.destination === 'Cacilhas' && (
 											<NavigationArrowIcon weight="fill" size={16} className="text-sky-600 transform -scale-x-100" />
 										)}
-										<span className={`text-sm font-semibold ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
+										<span className={`text-sm font-normal ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
 											{departure.destination}
 										</span>
 										<LighthouseIcon size={16} weight="regular" className={isCancelled ? 'text-gray-400' : 'text-gray-900'} />
@@ -291,7 +291,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 						{/* Bottom row: status + hall/bikes */}
 						<div className="flex justify-between items-start mt-2">
 							<div className={`flex ${isBoarding ? 'flex-col gap-2' : 'items-center gap-2'}`}>
-								<span className={`text-sm ${isCancelled ? 'text-gray-400' : 'text-gray-500'}`}>
+								<span className='text-sm text-gray-400'>
 									{departure.status}
 								</span>
 								{!isCancelled && !isBoarding && (
@@ -301,7 +301,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 								{isBoarding && (
 									<div className="flex items-center gap-2">
 										<CircularProgress progress={departure.progress ?? 0} />
-										<span className="text-sm font-bold text-gray-900 tracking-tight">
+										<span className="text-sm font-regular text-gray-900 tracking-tight">
 											{departure.progress}%
 										</span>
 									</div>
@@ -314,7 +314,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 								</span>
 								{departure.bikes !== undefined && (
 									<div className="flex items-center gap-2">
-										<span className="text-sm font-bold text-gray-900">{departure.bikes}</span>
+										<span className="text-sm font-regular text-gray-900">{departure.bikes}</span>
 										<BicycleIcon size={20} className="text-sky-600" weight="regular" />
 									</div>
 								)}
