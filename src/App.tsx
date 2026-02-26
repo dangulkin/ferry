@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { LighthouseIcon, WarningIcon, GearIcon } from '@phosphor-icons/react';
 
+import { BoatIcon } from './components/icons/BoatIcon';
 import Departures from './components/Departures';
 import Routes from './components/Routes';
 import Alerts from './components/Alerts';
@@ -33,23 +34,13 @@ export default function App() {
 
 			<nav className="absolute bottom-0 pb-9 w-full bg-white border-t border-gray-200 flex justify-around items-center pb-safe pt-2 px-2 z-50">
 				<NavItem
-					icon={
-						<span
-							className="material-symbols-rounded"
-							style={{
-								fontVariationSettings: `'FILL' ${activeTab === 'departures' ? 1 : 0}, 'wght' 400, 'GRAD' 0, 'opsz' 24`,
-								fontSize: '24px'
-							}}
-						>
-							directions_boat
-						</span>
-					}
+					icon={<BoatIcon filled={activeTab === 'departures'} size={24} />}
 					label="Departures"
 					isActive={activeTab === 'departures'}
 					onClick={() => setActiveTab('departures')}
 				/>
 				<NavItem
-					icon={<LighthouseIcon weight={activeTab === 'routes' ? 'fill' : 'bold'} size={24} />}
+					icon={<LighthouseIcon weight={activeTab === 'routes' ? 'fill' : 'regular'} size={24} />}
 					label="Routes"
 					isActive={activeTab === 'routes'}
 					onClick={() => setActiveTab('routes')}
@@ -57,7 +48,7 @@ export default function App() {
 				<NavItem
 					icon={
 						<div className="relative">
-							<WarningIcon weight={activeTab === 'alerts' ? 'fill' : 'bold'} size={24} />
+							<WarningIcon weight={activeTab === 'alerts' ? 'fill' : 'regular'} size={24} />
 							<span className="absolute top-0 right-0 w-2 h-2 bg-red-600 rounded-full border border-white"></span>
 						</div>
 					}
@@ -66,7 +57,7 @@ export default function App() {
 					onClick={() => setActiveTab('alerts')}
 				/>
 				<NavItem
-					icon={<GearIcon weight={activeTab === 'settings' ? 'fill' : 'bold'} size={24} />}
+					icon={<GearIcon weight={activeTab === 'settings' ? 'fill' : 'regular'} size={24} />}
 					label="Settings"
 					isActive={activeTab === 'settings'}
 					onClick={() => setActiveTab('settings')}

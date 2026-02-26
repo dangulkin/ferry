@@ -8,13 +8,13 @@ interface DeparturesHeaderProps {
 
 const DeparturesHeader: React.FC<DeparturesHeaderProps> = ({ isSpecificRoute, onBack }) => {
 	return (
-		<header className="pt-12 bg-gray-50 sticky top-0 z-10">
+		<header className="pt-4 bg-gray-50 sticky top-0 z-10">
 			<div className="h-[82px] flex items-center">
 				<button
 					onClick={onBack}
 					className="size-10 mx-3 flex items-center justify-center text-gray-900"
 				>
-					<LighthouseIcon size={24} weight="bold" />
+					<LighthouseIcon size={24} weight="regular" />
 				</button>
 				<div className="flex flex-1 h-full items-center">
 					{isSpecificRoute ? (

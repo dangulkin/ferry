@@ -269,7 +269,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 										<span className={`text-sm font-semibold ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
 											{departure.destination}
 										</span>
-										<LighthouseIcon size={16} weight="bold" className={isCancelled ? 'text-gray-400' : 'text-gray-900'} />
+										<LighthouseIcon size={16} weight="regular" className={isCancelled ? 'text-gray-400' : 'text-gray-900'} />
 									</div>
 								)}
 								{/* Bell badge: width animates 0→18px, no layout shift when hidden */}
@@ -315,7 +315,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 								{departure.bikes !== undefined && (
 									<div className="flex items-center gap-2">
 										<span className="text-sm font-bold text-gray-900">{departure.bikes}</span>
-										<BicycleIcon size={20} className="text-sky-600" weight="bold" />
+										<BicycleIcon size={20} className="text-sky-600" weight="regular" />
 									</div>
 								)}
 							</div>
