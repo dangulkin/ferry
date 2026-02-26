@@ -49,6 +49,12 @@ const MOCK_DEPARTURES: Departure[] = [
 	// 12:00
 	{ id: '26', time: '12:00', timeUntil: '3h 39m', destination: 'Cacilhas', status: 'On time', hall: 'Cais 4', color: 'bg-yellow-400' },
 	{ id: '27', time: '12:00', timeUntil: '3h 39m', destination: 'Seixal', status: 'On time', hall: 'Cais 6', color: 'bg-teal-600' },
+	// Trafaria - Porto Brandão departures
+	{ id: '28', time: '08:00', timeUntil: 'Past', destination: 'Belém', status: 'On time', hall: 'Trafaria', color: 'bg-orange-500' },
+	{ id: '29', time: '09:00', timeUntil: '39 min', destination: 'Belém', status: 'On time', hall: 'Trafaria', color: 'bg-orange-500' },
+	{ id: '30', time: '10:00', timeUntil: '1h 39m', destination: 'Belém', status: 'On time', hall: 'Trafaria', color: 'bg-orange-500' },
+	{ id: '31', time: '11:00', timeUntil: '2h 39m', destination: 'Belém', status: 'On time', hall: 'Trafaria', color: 'bg-orange-500' },
+	{ id: '32', time: '12:00', timeUntil: '3h 39m', destination: 'Belém', status: 'On time', hall: 'Trafaria', color: 'bg-orange-500' },
 ];
 
 const MOCK_ROUTE_DEPARTURES: Departure[] = [

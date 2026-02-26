@@ -20,11 +20,19 @@ export default function Routes({ onSelectRoute }: { onSelectRoute: (route: strin
 						>
 							<div className={`w-1.5 shrink-0 ${route.color}`} />
 							<div className="flex-1 p-4 flex flex-col justify-center">
-								<div className="flex items-center gap-2">
-									<span className="text-base font-bold text-gray-900">{route.from}</span>
-									{route.icon && <NavigationArrowIcon weight="fill" size={14} className="text-sky-600 -scale-x-100" />}
+								<div className="flex flex-col">
+									{Array.isArray(route.from) ? (
+										route.from.map((stop, idx) => (
+											<span key={idx} className="text-base font-bold text-gray-900 leading-tight">{stop}</span>
+										))
+									) : (
+										<div className="flex items-center gap-2">
+											<span className="text-base font-bold text-gray-900 leading-tight">{route.from}</span>
+											{route.icon && <NavigationArrowIcon weight="fill" size={14} className="text-sky-600 -scale-x-100" />}
+										</div>
+									)}
 								</div>
-								<span className="text-base font-bold text-gray-900 mt-1">{route.to}</span>
+								<span className="text-base font-bold text-gray-900 mt-1 leading-tight">{route.to}</span>
 							</div>
 						</button>
 					))}

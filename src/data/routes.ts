@@ -1,6 +1,6 @@
 export interface Route {
 	id: string;
-	from: string;
+	from: string | string[];
 	to: string;
 	color: string;
 	borderColor: string;
@@ -39,7 +39,7 @@ export const ROUTES: Route[] = [
 	},
 	{
 		id: '5',
-		from: 'Trafaria — Porto Brandão',
+		from: ['Trafaria', 'Porto Brandão'],
 		to: 'Belém',
 		color: 'bg-orange-500',
 		borderColor: 'border-orange-500',
