@@ -1,0 +1,5 @@
+{
+  "name": "Ferry Commute App",
+  "description": "Mobile-first ferry commute application with real-time departures, routes, alerts, and settings.",
+  "requestFramePermissions": []
+}
