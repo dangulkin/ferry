@@ -8,7 +8,7 @@ interface DeparturesHeaderProps {
 
 const DeparturesHeader: React.FC<DeparturesHeaderProps> = ({ isSpecificRoute, onBack }) => {
 	return (
-		<header className="pt-4 bg-gray-50 sticky top-0 z-10">
+		<header className="pt-safe bg-gray-50 sticky top-0 z-10">
 			<div className="h-[82px] flex items-center">
 				<button
 					onClick={onBack}

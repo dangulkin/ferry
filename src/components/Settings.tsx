@@ -8,7 +8,7 @@ export default function Settings() {
 
 	return (
 		<div className="flex flex-col h-full bg-gray-50">
-			<header className="px-3 pt-4 pb-6 bg-gray-50 sticky top-0 z-10">
+			<header className="px-3 pt-safe pb-6 bg-gray-50 sticky top-0 z-10">
 				<h1 className="text-2xl font-bold text-gray-900">Settings</h1>
 			</header>
 

@@ -13,3 +13,15 @@
 @theme {
 	--font-sans: 'PT Root UI', ui-sans-serif, system-ui, sans-serif;
 }
+
+body {
+	background-color: #f9fafb;
+}
+
+.pt-safe {
+	padding-top: env(safe-area-inset-top);
+}
+
+.pb-safe {
+	padding-bottom: env(safe-area-inset-bottom);
+}
