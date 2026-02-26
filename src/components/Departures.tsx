@@ -1,255 +1,108 @@
-import React, { useState } from 'react';
-import { WarningCircle, NavigationArrow, Bicycle, Bell, ArrowsDownUp, Boat } from '@phosphor-icons/react';
+import type { Departure } from '../types/departure';
+import DeparturesHeader from './DeparturesHeader';
+import AlertBanner from './AlertBanner';
+import DepartureCard from './DepartureCard';
 
-const MOCK_DEPARTURES = [
-  {
-    id: '1',
-    time: '08:25',
-    timeUntil: '04 min',
-    destination: 'Cacilhas',
-    status: 'Boarding',
-    hall: 'Sal 2',
-    bikes: 5,
-    color: 'bg-yellow-400',
-    progress: 65,
-  },
-  {
-    id: '2',
-    time: '08:35',
-    timeUntil: '14 min',
-    delay: '+4 min',
-    destination: 'Cais do Sodré',
-    status: 'Delayed',
-    hall: 'Sal 2',
-    color: 'bg-yellow-400',
-  },
-  {
-    id: '3',
-    time: '08:40',
-    timeUntil: '19 min',
-    destination: 'Barreiro',
-    status: 'Cancelled',
-    hall: 'Sal 2',
-    color: 'bg-gray-300',
-    isCancelled: true,
-  },
-  {
-    id: '4',
-    time: '08:45',
-    timeUntil: '24 min',
-    destination: 'Montijo',
-    status: 'On time',
-    hall: 'Sal 2',
-    color: 'bg-pink-600',
-  },
-  {
-    id: '5',
-    time: '09:00',
-    timeUntil: '39 min',
-    destination: 'Seixal',
-    status: 'On time',
-    hall: 'Sal 2',
-    color: 'bg-teal-600',
-  },
-  {
-    id: '6',
-    time: '08:25',
-    timeUntil: '24 min',
-    destination: 'Cais do Sodré',
-    status: 'On time',
-    hall: 'Sal 2',
-    color: 'bg-pink-600',
-  }
+// ── Mock data ─────────────────────────────────────────────────────────────────
+
+// Расписание отсортировано по времени. Паромы в одно время = разные пирсы одновременно.
+// Bikes и progress — только для Boarding (паром уже открыт на посадку).
+// Вместимость велосипедов: малый паром — 4, средний — 9, большой — 20.
+const MOCK_DEPARTURES: Departure[] = [
+	// 08:25 — одновременно 3 пирса в час пик
+	{ id: '1', time: '08:25', timeUntil: '04 min', destination: 'Cacilhas', status: 'Boarding', hall: 'Cais 4', bikes: 16, color: 'bg-yellow-400', progress: 78 },
+	{ id: '2', time: '08:25', timeUntil: '04 min', destination: 'Barreiro', status: 'Boarding', hall: 'Cais 7', bikes: 3, color: 'bg-sky-600', progress: 91 },
+	{ id: '3', time: '08:25', timeUntil: '04 min', destination: 'Montijo', status: 'Boarding', hall: 'Cais 8', bikes: 2, color: 'bg-pink-600', progress: 60 },
+	// 08:35 — Cacilhas с задержкой + Seixal
+	{ id: '4', time: '08:35', timeUntil: '14 min', destination: 'Cacilhas', status: 'Delayed', hall: 'Cais 4', delay: '+6 min', color: 'bg-yellow-400', showBell: true },
+	{ id: '5', time: '08:35', timeUntil: '14 min', destination: 'Seixal', status: 'On time', hall: 'Cais 6', color: 'bg-teal-600' },
+	// 08:40 — отменён
+	{ id: '6', time: '08:40', timeUntil: '19 min', destination: 'Cais do Sodré', status: 'Cancelled', hall: 'Cais 3', color: 'bg-yellow-400', isCancelled: true },
+	// 08:50 — пик: 2 пирса одновременно
+	{ id: '7', time: '08:50', timeUntil: '29 min', destination: 'Cacilhas', status: 'On time', hall: 'Cais 5', color: 'bg-yellow-400' },
+	{ id: '8', time: '08:50', timeUntil: '29 min', destination: 'Barreiro', status: 'On time', hall: 'Cais 7', color: 'bg-sky-600' },
+	// 09:00 — 3 пирса
+	{ id: '9', time: '09:00', timeUntil: '39 min', destination: 'Cacilhas', status: 'On time', hall: 'Cais 4', color: 'bg-yellow-400' },
+	{ id: '10', time: '09:00', timeUntil: '39 min', destination: 'Montijo', status: 'On time', hall: 'Cais 8', color: 'bg-pink-600' },
+	{ id: '11', time: '09:00', timeUntil: '39 min', destination: 'Seixal', status: 'On time', hall: 'Cais 6', color: 'bg-teal-600' },
+	// 09:15 — 2 пирса
+	{ id: '12', time: '09:15', timeUntil: '54 min', destination: 'Cacilhas', status: 'On time', hall: 'Cais 4', color: 'bg-yellow-400' },
+	{ id: '13', time: '09:15', timeUntil: '54 min', destination: 'Barreiro', status: 'On time', hall: 'Cais 7', color: 'bg-sky-600' },
+	// 09:30 — 2 пирса
+	{ id: '14', time: '09:30', timeUntil: '1h 09m', destination: 'Cacilhas', status: 'On time', hall: 'Cais 5', color: 'bg-yellow-400' },
+	{ id: '15', time: '09:30', timeUntil: '1h 09m', destination: 'Seixal', status: 'On time', hall: 'Cais 6', color: 'bg-teal-600' },
+	// 09:45 — 2 пирса
+	{ id: '16', time: '09:45', timeUntil: '1h 24m', destination: 'Cacilhas', status: 'On time', hall: 'Cais 4', color: 'bg-yellow-400' },
+	{ id: '17', time: '09:45', timeUntil: '1h 24m', destination: 'Montijo', status: 'On time', hall: 'Cais 8', color: 'bg-pink-600' },
+	// 10:05 — спад пика, частота снижается; один маршрут
+	{ id: '18', time: '10:05', timeUntil: '1h 44m', destination: 'Cacilhas', status: 'On time', hall: 'Cais 4', color: 'bg-yellow-400' },
+	{ id: '19', time: '10:05', timeUntil: '1h 44m', destination: 'Barreiro', status: 'On time', hall: 'Cais 7', color: 'bg-sky-600' },
+	// 10:30
+	{ id: '20', time: '10:30', timeUntil: '2h 09m', destination: 'Cacilhas', status: 'On time', hall: 'Cais 4', color: 'bg-yellow-400', showBell: true },
+	{ id: '21', time: '10:30', timeUntil: '2h 09m', destination: 'Seixal', status: 'On time', hall: 'Cais 6', color: 'bg-teal-600' },
+	// 11:00
+	{ id: '22', time: '11:00', timeUntil: '2h 39m', destination: 'Cacilhas', status: 'On time', hall: 'Cais 5', color: 'bg-yellow-400' },
+	{ id: '23', time: '11:00', timeUntil: '2h 39m', destination: 'Montijo', status: 'On time', hall: 'Cais 8', color: 'bg-pink-600' },
+	// 11:30
+	{ id: '24', time: '11:30', timeUntil: '3h 09m', destination: 'Cacilhas', status: 'On time', hall: 'Cais 4', color: 'bg-yellow-400' },
+	{ id: '25', time: '11:30', timeUntil: '3h 09m', destination: 'Barreiro', status: 'On time', hall: 'Cais 7', color: 'bg-sky-600' },
+	// 12:00
+	{ id: '26', time: '12:00', timeUntil: '3h 39m', destination: 'Cacilhas', status: 'On time', hall: 'Cais 4', color: 'bg-yellow-400' },
+	{ id: '27', time: '12:00', timeUntil: '3h 39m', destination: 'Seixal', status: 'On time', hall: 'Cais 6', color: 'bg-teal-600' },
 ];
 
-const MOCK_ROUTE_DEPARTURES = [
-  {
-    id: '1',
-    time: '08:25',
-    timeUntil: '04 min',
-    status: 'Boarding',
-    hall: 'Sal 2',
-    bikes: 6,
-    color: 'bg-yellow-400',
-    progress: 65,
-  },
-  {
-    id: '2',
-    time: '08:45',
-    timeUntil: '24 min',
-    delay: '+4 min',
-    status: 'Delayed',
-    hall: 'Sal 2',
-    color: 'bg-yellow-400',
-    showBell: true,
-  },
-  {
-    id: '3',
-    time: '09:05',
-    timeUntil: '44 min',
-    status: 'Cancelled',
-    hall: 'Sal 2',
-    color: 'bg-gray-300',
-    isCancelled: true,
-  },
-  {
-    id: '4',
-    time: '10:45',
-    timeUntil: '2h 24m',
-    status: 'On time',
-    hall: 'Sal 2',
-    color: 'bg-yellow-400',
-  },
-  {
-    id: '5',
-    time: '11:00',
-    timeUntil: '2h 39m',
-    status: 'On time',
-    hall: 'Sal 2',
-    color: 'bg-yellow-400',
-  },
-  {
-    id: '6',
-    time: '11:20',
-    timeUntil: '2h 59m',
-    status: 'On time',
-    hall: 'Sal 2',
-    color: 'bg-yellow-400',
-  }
+const MOCK_ROUTE_DEPARTURES: Departure[] = [
+	{ id: '1', time: '08:25', timeUntil: '04 min', status: 'Boarding', hall: 'Sal 2', bikes: 6, color: 'bg-yellow-400', progress: 85 },
+	{ id: '2', time: '08:35', timeUntil: '14 min', delay: '+4 min', status: 'Delayed', hall: 'Sal 2', color: 'bg-yellow-400', showBell: true },
+	{ id: '3', time: '08:50', timeUntil: '29 min', status: 'On time', hall: 'Sal 2', color: 'bg-yellow-400' },
+	{ id: '4', time: '09:05', timeUntil: '44 min', status: 'On time', hall: 'Sal 2', color: 'bg-yellow-400' },
+	{ id: '5', time: '09:20', timeUntil: '59 min', status: 'On time', hall: 'Sal 2', bikes: 8, color: 'bg-yellow-400' },
+	{ id: '6', time: '09:40', timeUntil: '1h 19m', status: 'On time', hall: 'Sal 2', color: 'bg-yellow-400' },
+	{ id: '7', time: '10:00', timeUntil: '1h 39m', status: 'On time', hall: 'Sal 2', color: 'bg-yellow-400' },
+	{ id: '8', time: '10:20', timeUntil: '1h 59m', status: 'On time', hall: 'Sal 2', color: 'bg-yellow-400' },
+	{ id: '9', time: '10:40', timeUntil: '2h 19m', status: 'On time', hall: 'Sal 2', color: 'bg-yellow-400' },
+	{ id: '10', time: '11:00', timeUntil: '2h 39m', status: 'On time', hall: 'Sal 2', color: 'bg-yellow-400' },
+	{ id: '11', time: '11:20', timeUntil: '2h 59m', status: 'On time', hall: 'Sal 2', color: 'bg-yellow-400' },
+	{ id: '12', time: '11:40', timeUntil: '3h 19m', status: 'On time', hall: 'Sal 2', color: 'bg-yellow-400' },
+	{ id: '13', time: '12:00', timeUntil: '3h 39m', status: 'On time', hall: 'Sal 2', color: 'bg-yellow-400' },
 ];
 
-export default function Departures({ selectedRoute, onSelectRoute }: { selectedRoute: string | null, onSelectRoute: () => void }) {
-  const isSpecificRoute = selectedRoute && selectedRoute !== 'all';
-  const departures = isSpecificRoute ? MOCK_ROUTE_DEPARTURES : MOCK_DEPARTURES;
+// ── Departures ────────────────────────────────────────────────────────────────
 
-  return (
-    <div className="flex flex-col h-full bg-gray-50">
-      <header className="px-6 pt-12 pb-4 bg-gray-50 sticky top-0 z-10">
-        <div className="flex items-center gap-4">
-          <button onClick={onSelectRoute} className="w-10 h-10 flex items-center justify-center text-gray-900 bg-transparent hover:bg-gray-100 rounded-full transition-colors">
-            <Boat size={28} weight="regular" />
-          </button>
-          <div className="flex-1">
-            {isSpecificRoute ? (
-              <div className="flex items-center justify-between">
-                <div className="flex flex-col border-l-4 border-yellow-400 pl-3">
-                  <div className="flex items-center gap-2">
-                    <h1 className="text-2xl font-bold text-gray-900 leading-tight">Cacilhas</h1>
-                    <NavigationArrow weight="fill" size={16} className="text-sky-600 transform rotate-45" />
-                  </div>
-                  <h2 className="text-2xl font-bold text-gray-900 leading-tight">Cais do Sodré</h2>
-                </div>
-                <button className="p-2 text-gray-900 hover:bg-gray-200 rounded-full">
-                  <ArrowsDownUp size={24} />
-                </button>
-              </div>
-            ) : (
-              <div className="border-l-4 border-gray-400 pl-3">
-                <h1 className="text-2xl font-bold text-gray-900">All departures</h1>
-              </div>
-            )}
-          </div>
-        </div>
-      </header>
-
-      <div className="px-6 py-4 flex gap-4 items-start">
-        <div className="flex flex-col items-center">
-          <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Jan</span>
-          <span className="text-2xl font-bold text-gray-900 leading-none">25</span>
-        </div>
-        <div className="flex-1">
-          <div className="flex items-center gap-1.5 text-gray-900 font-medium">
-            <WarningCircle weight="fill" className="text-gray-900" size={16} />
-            <span>Severe Weather</span>
-          </div>
-          <p className="text-sm text-gray-500 mt-1 leading-snug">
-            Severe coastal event warning. These conditions are expected by 12:00 on Tuesday 27 January.
-          </p>
-        </div>
-      </div>
-
-      <div className="flex-1 overflow-y-auto pb-6">
-        <div className="flex flex-col gap-0.5 bg-gray-100">
-          {departures.map((dep) => (
-            <DepartureCard key={dep.id} departure={dep} isSpecificRoute={isSpecificRoute} />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+interface DeparturesProps {
+	selectedRoute: string | null;
+	onSelectRoute: () => void;
 }
 
-function DepartureCard({ departure, isSpecificRoute }: { departure: any, isSpecificRoute: boolean }) {
-  const isCancelled = departure.isCancelled;
-  const isDelayed = departure.status === 'Delayed';
-  const isBoarding = departure.status === 'Boarding';
+export default function Departures({ selectedRoute, onSelectRoute }: DeparturesProps) {
+	const isSpecificRoute = !!(selectedRoute && selectedRoute !== 'all');
+	const departures = isSpecificRoute ? MOCK_ROUTE_DEPARTURES : MOCK_DEPARTURES;
 
-  return (
-    <div className="flex bg-white relative group">
-      <div className="w-16 shrink-0 flex items-start justify-center pt-4">
-        <span className={`text-sm ${isCancelled ? 'text-gray-400' : 'text-gray-500'}`}>{departure.time}</span>
-      </div>
+	return (
+		<div className="flex flex-col gap-4 h-full bg-gray-50">
+			<DeparturesHeader isSpecificRoute={isSpecificRoute} onBack={onSelectRoute} />
 
-      <div className={`w-1.5 shrink-0 ${departure.color}`} />
+			<AlertBanner
+				month="Jan"
+				day={25}
+				title="Severe Weather"
+				description="Severe coastal event warning. These conditions are expected by 12:00 on Tuesday 27 January."
+			/>
 
-      <div className="flex-1 p-4 flex flex-col justify-center relative">
-        <div className="flex justify-between items-start mb-1">
-          <div className="flex items-baseline gap-2">
-            <span className={`text-xl font-bold ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
-              {departure.timeUntil}
-            </span>
-            {departure.delay && (
-              <span className="text-sm font-semibold text-red-600">{departure.delay}</span>
-            )}
-          </div>
-          {!isSpecificRoute && departure.destination && (
-            <div className="flex items-center gap-1.5">
-              {departure.destination === 'Cacilhas' && <NavigationArrow weight="fill" size={14} className="text-sky-600 transform rotate-45" />}
-              <span className={`text-sm font-semibold ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
-                {departure.destination}
-              </span>
-              <Boat size={14} weight="fill" className={isCancelled ? 'text-gray-300' : 'text-gray-400'} />
-            </div>
-          )}
-        </div>
-
-        <div className="flex justify-between items-end mt-2">
-          <div className="flex items-center gap-2">
-            <span className={`text-sm ${isCancelled ? 'text-gray-400' : 'text-gray-500'}`}>
-              {departure.status}
-            </span>
-            {!isCancelled && (
-              <div className={`w-1.5 h-1.5 rounded-full ${isDelayed ? 'bg-red-600' : isBoarding ? 'bg-transparent' : 'bg-green-500'}`} />
-            )}
-            {isCancelled && <div className="w-1.5 h-1.5 rounded-full bg-red-400" />}
-            
-            {isBoarding && (
-              <div className="flex items-center gap-1.5 ml-2">
-                <div className="w-4 h-4 rounded-full border-2 border-sky-600 border-t-transparent animate-spin" />
-                <span className="text-sm font-semibold text-gray-900">{departure.progress}%</span>
-              </div>
-            )}
-          </div>
-          
-          <div className="flex flex-col items-end gap-1">
-            <span className={`text-sm ${isCancelled ? 'text-gray-300' : 'text-gray-400'}`}>
-              {departure.hall}
-            </span>
-            {departure.bikes !== undefined && (
-              <div className="flex items-center gap-1">
-                <span className="text-sm font-bold text-gray-900">{departure.bikes}</span>
-                <Bicycle size={16} className="text-sky-600" weight="bold" />
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-      
-      {departure.showBell && (
-        <div className="absolute right-0 top-0 bottom-0 w-16 bg-sky-600 flex items-center justify-center">
-          <Bell size={24} weight="fill" className="text-white" />
-        </div>
-      )}
-    </div>
-  );
+			<div
+				className="flex-1 overflow-y-auto pb-6"
+			>
+				<div className="flex flex-col gap-px">
+					{departures.map((dep, index) => (
+						<DepartureCard
+							key={dep.id}
+							departure={dep}
+							isSpecificRoute={isSpecificRoute}
+							isFirst={index === 0}
+						/>
+					))}
+				</div>
+			</div>
+		</div>
+	);
 }

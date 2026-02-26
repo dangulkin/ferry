@@ -1,6 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-@import "tailwindcss";
+@font-face {
+	font-family: 'PT Root UI';
+	src:
+		url('./assets/fonts/PT-Root-UI/pt-root-ui_vf.woff2') format('woff2'),
+		url('./assets/fonts/PT-Root-UI/pt-root-ui_vf.woff') format('woff');
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+@import 'tailwindcss';
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+	--font-sans: 'PT Root UI', ui-sans-serif, system-ui, sans-serif;
 }

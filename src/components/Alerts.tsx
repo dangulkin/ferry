@@ -53,7 +53,7 @@ export default function Alerts() {
 
   return (
     <div className="flex flex-col h-full bg-gray-50">
-      <header className="px-6 pt-12 pb-6 bg-gray-50 sticky top-0 z-10">
+      <header className="px-3 pt-12 pb-6 bg-gray-50 sticky top-0 z-10">
         <h1 className="text-2xl font-bold text-gray-900">Alerts</h1>
       </header>
 
@@ -63,7 +63,7 @@ export default function Alerts() {
             <button
               key={alert.id}
               onClick={() => setSelectedAlert(alert.id)}
-              className="flex items-stretch bg-white shadow-sm border border-gray-100 text-left hover:bg-gray-50 transition-colors"
+              className="flex items-stretch bg-white shadow-sm text-left"
             >
               <div className={`w-1.5 shrink-0 ${alert.color}`} />
               <div className="w-16 shrink-0 flex flex-col items-center justify-center border-r border-gray-100 py-4">
@@ -85,7 +85,7 @@ export default function Alerts() {
 function AlertDetail({ onBack }: { onBack: () => void }) {
   return (
     <div className="flex flex-col h-full bg-white">
-      <header className="px-4 pt-12 pb-4 flex items-center gap-4 border-b border-gray-100 sticky top-0 bg-white z-10">
+      <header className="px-3 pt-12 pb-4 flex items-center gap-4 border-b border-gray-100 sticky top-0 bg-white z-10">
         <button onClick={onBack} className="p-2 -ml-2 text-gray-900 hover:bg-gray-100 rounded-full transition-colors">
           <ArrowLeft size={24} weight="bold" />
         </button>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { CaretRight, NavigationArrow } from '@phosphor-icons/react';
+import { CaretRightIcon, NavigationArrowIcon } from '@phosphor-icons/react';
 
 const ROUTES = [
   {
@@ -38,7 +38,7 @@ const ROUTES = [
 export default function Routes({ onSelectRoute }: { onSelectRoute: (route: string) => void }) {
   return (
     <div className="flex flex-col h-full bg-gray-50">
-      <header className="px-6 pt-12 pb-6 bg-gray-50 sticky top-0 z-10">
+      <header className="px-3 pt-12 pb-6 bg-gray-50 sticky top-0 z-10">
         <h1 className="text-2xl font-bold text-gray-900">Choose your route</h1>
       </header>
 
@@ -48,13 +48,13 @@ export default function Routes({ onSelectRoute }: { onSelectRoute: (route: strin
             <button
               key={route.id}
               onClick={() => onSelectRoute(route.id)}
-              className="flex items-stretch bg-white shadow-sm border border-gray-100 text-left hover:bg-gray-50 transition-colors"
+              className="flex items-stretch bg-white shadow-sm text-left min-h-[84px]"
             >
               <div className={`w-1.5 shrink-0 ${route.color}`} />
               <div className="flex-1 p-4 flex flex-col justify-center">
                 <div className="flex items-center gap-2">
                   <span className="text-base font-bold text-gray-900">{route.from}</span>
-                  {route.icon && <NavigationArrow weight="fill" size={14} className="text-sky-600 transform rotate-45" />}
+                  {route.icon && <NavigationArrowIcon weight="fill" size={14} className="text-sky-600 -scale-x-100" />}
                 </div>
                 <span className="text-base font-bold text-gray-900 mt-1">{route.to}</span>
               </div>
@@ -68,7 +68,7 @@ export default function Routes({ onSelectRoute }: { onSelectRoute: (route: strin
             <div className="w-1.5 shrink-0 bg-gray-500" />
             <div className="flex-1 p-4 flex items-center justify-between">
               <span className="text-base font-bold text-gray-900">Show all departures</span>
-              <CaretRight size={20} className="text-gray-900" weight="bold" />
+              <CaretRightIcon size={20} className="text-gray-900" weight="bold" />
             </div>
           </button>
         </div>
