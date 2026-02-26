@@ -57,7 +57,7 @@ export default function Alerts() {
 				<h1 className="text-2xl font-bold text-gray-900">Alerts</h1>
 			</header>
 
-			<div className="flex-1 overflow-y-auto px-4 pb-6">
+			<div className="flex-1 overflow-y-auto px-4">
 				<div className="flex flex-col gap-3">
 					{ALERTS.map((alert) => (
 						<button

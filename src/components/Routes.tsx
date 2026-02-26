@@ -42,7 +42,7 @@ export default function Routes({ onSelectRoute }: { onSelectRoute: (route: strin
 				<h1 className="text-2xl font-bold text-gray-900">Choose your route</h1>
 			</header>
 
-			<div className="flex-1 overflow-y-auto px-4 pb-6">
+			<div className="flex-1 overflow-y-auto px-4">
 				<div className="flex flex-col gap-3">
 					{ROUTES.map((route) => (
 						<button

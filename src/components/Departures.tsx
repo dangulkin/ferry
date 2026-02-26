@@ -90,7 +90,7 @@ export default function Departures({ selectedRoute, onSelectRoute }: DeparturesP
 			/>
 
 			<div
-				className="flex-1 overflow-y-auto pb-6"
+				className="flex-1 overflow-y-auto"
 			>
 				<div className="flex flex-col gap-px">
 					{departures.map((dep, index) => (

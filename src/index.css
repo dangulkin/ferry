@@ -16,6 +16,7 @@
 
 body {
 	background-color: #f9fafb;
+	overscroll-behavior: none;
 }
 
 .pt-safe {
