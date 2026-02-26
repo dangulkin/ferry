@@ -9,10 +9,10 @@ interface DeparturesHeaderProps {
 const DeparturesHeader: React.FC<DeparturesHeaderProps> = ({ isSpecificRoute, onBack }) => {
 	return (
 		<header className="pt-safe bg-gray-50 sticky top-0 z-10">
-			<div className="h-[82px] flex items-center">
+			<div className="pt-4 h-[98px] flex items-center">
 				<button
 					onClick={onBack}
-					className="size-10 mx-3 flex items-center justify-center text-gray-900"
+					className="size-10 mx-3 shrink-0 flex items-center justify-center text-gray-900 hover:bg-gray-200 rounded-full"
 				>
 					<LighthouseIcon size={24} weight="regular" />
 				</button>
@@ -26,13 +26,13 @@ const DeparturesHeader: React.FC<DeparturesHeaderProps> = ({ isSpecificRoute, on
 								</div>
 								<h2 className="text-2xl font-bold text-gray-900 leading-tight">Cais do Sodré</h2>
 							</div>
-							<button className="p-2 text-gray-900 hover:bg-gray-200 rounded-full">
+							<button className="size-10 mx-3 shrink-0 flex items-center justify-center text-gray-900 hover:bg-gray-200 rounded-full">
 								<ArrowsDownUpIcon size={24} />
 							</button>
 						</div>
 					) : (
 						<div className="h-full flex-1 flex items-center border-l-6 border-gray-400 px-4">
-							<h1 className="text-2xl font-bold text-gray-900">All departures</h1>
+							<h1 className="text-2xl font-bold text-gray-900 leading-none">All departures</h1>
 						</div>
 					)}
 				</div>

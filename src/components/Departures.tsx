@@ -75,8 +75,30 @@ interface DeparturesProps {
 }
 
 export default function Departures({ selectedRoute, onSelectRoute }: DeparturesProps) {
-	const isSpecificRoute = !!(selectedRoute && selectedRoute !== 'all');
-	const departures = isSpecificRoute ? MOCK_ROUTE_DEPARTURES : MOCK_DEPARTURES;
+	const isSpecificRoute = !!(selectedRoute && selectedRoute !== 'all' && selectedRoute !== '');
+
+	// Filtering logic based on selectedRoute (which is the route id)
+	const getDepartures = () => {
+		if (!isSpecificRoute) return MOCK_DEPARTURES;
+
+		const routeNames: Record<string, string> = {
+			'1': 'Cacilhas',
+			'2': 'Barreiro',
+			'3': 'Montijo',
+			'4': 'Seixal',
+			'5': 'Belém'
+		};
+
+		const destName = routeNames[selectedRoute!];
+		if (!destName) return MOCK_DEPARTURES;
+
+		// When specific route is selected, we usually want to see departures for that route specifically.
+		// For demo purposes, we can filter MOCK_DEPARTURES or use a specialized mock.
+		// Let's filter MOCK_DEPARTURES to make it dynamic.
+		return MOCK_DEPARTURES.filter(d => d.destination === destName);
+	};
+
+	const departures = getDepartures();
 
 	return (
 		<div className="flex flex-col gap-4 h-full bg-gray-50">

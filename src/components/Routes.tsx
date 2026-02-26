@@ -39,7 +39,7 @@ export default function Routes({ onSelectRoute }: { onSelectRoute: (route: strin
 	return (
 		<div className="flex flex-col h-full bg-gray-50">
 			<header className="px-3 pt-safe pb-6 bg-gray-50 sticky top-0 z-10">
-				<h1 className="text-2xl font-bold text-gray-900">Choose your route</h1>
+				<h1 className="text-2xl font-bold text-gray-900 pt-4">Choose your route</h1>
 			</header>
 
 			<div className="flex-1 overflow-y-auto px-4">
