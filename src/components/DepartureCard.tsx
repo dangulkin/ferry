@@ -257,7 +257,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 									{departure.timeUntil}
 								</span>
 								{departure.delay && (
-									<span className="text-sm font-bold text-red-600">{departure.delay}</span>
+									<span className="text-sm font-regular text-red-600">{departure.delay}</span>
 								)}
 							</div>
 							<div className="flex items-center">
