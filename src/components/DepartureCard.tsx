@@ -253,11 +253,11 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 						{/* Top row: timeUntil + destination + bell badge */}
 						<div className="flex justify-between items-center">
 							<div className="flex items-baseline gap-2">
-								<span className={`text-xl font-regular ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
+								<span className={`text-xl font-bold ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
 									{departure.timeUntil}
 								</span>
 								{departure.delay && (
-									<span className="text-sm font-semiregular text-red-600">{departure.delay}</span>
+									<span className="text-sm font-bold text-red-600">{departure.delay}</span>
 								)}
 							</div>
 							<div className="flex items-center">
@@ -266,10 +266,10 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 										{departure.destination === 'Cacilhas' && (
 											<NavigationArrowIcon weight="fill" size={16} className="text-sky-600 transform -scale-x-100" />
 										)}
-										<span className={`text-sm font-normal ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
+										<span className={`text-sm font-bold ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
 											{departure.destination}
 										</span>
-										<LighthouseIcon size={16} weight="regular" className={isCancelled ? 'text-gray-400' : 'text-gray-900'} />
+										<LighthouseIcon size={16} weight="bold" className={isCancelled ? 'text-gray-400' : 'text-gray-900'} />
 									</div>
 								)}
 								{/* Bell badge: width animates 0→18px, no layout shift when hidden */}
