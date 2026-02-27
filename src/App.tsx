@@ -73,7 +73,7 @@ function NavItem({ icon, label, isActive, onClick }: { icon: React.ReactNode, la
 	return (
 		<button
 			onClick={onClick}
-			className={`flex flex-col items-center justify-center w-full gap-1 ${isActive ? 'text-sky-600' : 'text-gray-500 hover:text-gray-700'}`}
+			className={`flex flex-col items-center justify-center w-full gap-1 ${isActive ? 'text-gray-900' : 'text-gray-500'}`}
 		>
 			{icon}
 			<span className="text-xs font-normal">{label}</span>
