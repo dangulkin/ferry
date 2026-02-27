@@ -15,10 +15,10 @@ const CircularProgress: React.FC<CircularProgressProps> = ({ progress, size = 20
 	return (
 		<div className="relative" style={{ width: size, height: size }}>
 			<svg className="size-full -rotate-90" viewBox="0 0 24 24">
-				<circle cx="12" cy="12" r={r} fill="none" stroke="currentColor" strokeWidth="5" className="text-gray-100" />
+				<circle cx="12" cy="12" r={r} fill="none" stroke="currentColor" strokeWidth="3" className="text-gray-100" />
 				<circle
 					cx="12" cy="12" r={r}
-					fill="none" stroke="currentColor" strokeWidth="5"
+					fill="none" stroke="currentColor" strokeWidth="3"
 					strokeDasharray={circumference}
 					strokeDashoffset={circumference * (1 - progress / 100)}
 					strokeLinecap="round"
@@ -238,9 +238,9 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 						<div className="flex-1 py-3 px-2 flex flex-col justify-center relative">
 
 							{/* Top row: timeUntil + destination + bell badge */}
-							<div className="flex justify-between items-center">
-								<div className="flex items-baseline gap-2">
-									<span className={`text-xl font-bold ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
+							<div className="flex justify-between items-start">
+								<div className="flex flex-col items-baseline gap-0">
+									<span className={`text-xl leading-5 font-bold ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
 										{departure.timeUntil}
 									</span>
 									{departure.delay && (
@@ -249,7 +249,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 								</div>
 								<div className="flex items-center">
 									{!isSpecificRoute && departure.destination && (
-										<div className={`flex items-center gap-1.5 text-sm font-normal ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
+										<div className={`flex items-center gap-0.5 text-sm font-normal ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
 											{(() => {
 												let originStr = departure.origin;
 												if (!originStr) {
@@ -299,7 +299,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 									{isBoarding && (
 										<div className="flex items-center gap-2">
 											<CircularProgress progress={departure.progress ?? 0} />
-											<span className="text-sm font-bold text-gray-900 tracking-tight">
+											<span className="text-sm font-normal text-gray-900 tracking-tight">
 												{departure.progress}%
 											</span>
 										</div>
@@ -312,7 +312,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 									</span>
 									{departure.bikes !== undefined && (
 										<div className="flex items-center gap-1.5">
-											<span className="text-sm font-bold text-gray-900">{departure.bikes}</span>
+											<span className="text-sm font-normal text-gray-900">{departure.bikes}</span>
 											<BicycleIcon size={20} className="text-sky-600" weight="regular" />
 										</div>
 									)}
