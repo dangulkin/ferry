@@ -174,7 +174,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 	return (
 		<div
 			ref={outerRef}
-			className={`${isFirst ? 'sticky top-0 z-20 bg-linear-to-b from-gray-50 via-gray-50/90 to-transparent' : 'z-0 relative'}`}
+			className={`${isFirst ? 'sticky top-0 z-20 bg-linear-to-b from-gray-50 from-50% via-gray-50/90 to-transparent' : 'z-0 relative'}`}
 		>
 			{/* Dedicated shadow div that isn't clipped by overflow-hidden */}
 			{isFirst && (
@@ -235,7 +235,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 						<div className={`w-1.5 shrink-0 rounded-full ${departure.color}`} />
 
 						{/* Main content */}
-						<div className="flex-1 py-3 px-4 flex flex-col justify-center relative">
+						<div className="flex-1 py-3 px-2 flex flex-col justify-center relative">
 
 							{/* Top row: timeUntil + destination + bell badge */}
 							<div className="flex justify-between items-center">
@@ -249,7 +249,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 								</div>
 								<div className="flex items-center">
 									{!isSpecificRoute && departure.destination && (
-										<div className={`flex items-center gap-1.5 text-sm font-bold ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
+										<div className={`flex items-center gap-1.5 text-sm font-normal ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
 											{(() => {
 												let originStr = departure.origin;
 												if (!originStr) {
@@ -262,7 +262,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 													<>
 														{originStr === 'Belém' && <NavigationArrowIcon weight="fill" size={14} className="text-sky-600" />}
 														<span>{originStr}</span>
-														<span className="mx-0.5">➔</span>
+														<span className="mx-1">→</span>
 														{departure.destination === 'Belém' && <NavigationArrowIcon weight="fill" size={14} className="text-sky-600" />}
 														<span>{departure.destination}</span>
 													</>
