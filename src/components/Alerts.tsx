@@ -52,27 +52,29 @@ export default function Alerts() {
 	}
 
 	return (
-		<div className="flex flex-col h-full bg-gray-50">
-			<header className="px-3 pt-safe pb-6 bg-gray-50 sticky top-0 z-10">
+		<div className="flex flex-col h-full bg-gray-100">
+			<header className="px-3 pt-safe pb-6 bg-gray-100 sticky top-0 z-10">
 				<h1 className="text-2xl font-bold text-gray-900 pt-4">Alerts</h1>
 			</header>
 
 			<div className="flex-1 overflow-y-auto px-4">
-				<div className="flex flex-col gap-3">
+				<div className="flex flex-col gap-px pb-8">
 					{ALERTS.map((alert) => (
 						<button
 							key={alert.id}
 							onClick={() => setSelectedAlert(alert.id)}
-							className="flex items-stretch bg-white shadow-sm text-left"
+							className="flex items-stretch bg-transparent text-left"
 						>
-							<div className={`w-1.5 shrink-0 ${alert.color}`} />
-							<div className="w-16 shrink-0 flex flex-col items-center justify-center border-r border-gray-100 py-4">
+							<div className="w-16 shrink-0 flex flex-col items-center justify-center py-4">
 								<span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">{alert.month}</span>
 								<span className="text-xl font-bold text-gray-900 leading-tight">{alert.date}</span>
 							</div>
-							<div className="flex-1 p-4 flex flex-col justify-center">
-								<h3 className="text-base font-bold text-gray-900 mb-1">{alert.title}</h3>
-								<p className="text-sm text-gray-500 leading-snug line-clamp-2">{alert.summary}</p>
+							<div className="flex-1 bg-white rounded-lg p-1 flex items-stretch mr-3">
+								<div className={`w-1.5 shrink-0 rounded-full ${alert.color}`} />
+								<div className="flex-1 p-4 flex flex-col justify-center">
+									<h3 className="text-base font-bold text-gray-900 mb-1 leading-tight">{alert.title}</h3>
+									<p className="text-sm text-gray-500 leading-tight line-clamp-2">{alert.summary}</p>
+								</div>
 							</div>
 						</button>
 					))}

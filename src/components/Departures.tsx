@@ -118,7 +118,7 @@ export default function Departures({ selectedRoute, onSelectRoute }: DeparturesP
 	const departures = getDepartures();
 
 	return (
-		<div className="flex flex-col gap-4 h-full bg-gray-50">
+		<div className="flex flex-col gap-4 h-full bg-gray-100">
 			<DeparturesHeader isSpecificRoute={isSpecificRoute} routeId={selectedRoute} onBack={onSelectRoute} />
 
 			<AlertBanner

@@ -5,46 +5,52 @@ import { ROUTES } from '../data/routes';
 
 export default function Routes({ onSelectRoute }: { onSelectRoute: (route: string) => void }) {
 	return (
-		<div className="flex flex-col h-full bg-gray-50">
-			<header className="px-3 pt-safe pb-6 bg-gray-50 sticky top-0 z-10">
+		<div className="flex flex-col h-full bg-gray-100">
+			<header className="px-3 pt-safe pb-6 bg-gray-100 sticky top-0 z-10">
 				<h1 className="text-2xl font-bold text-gray-900 pt-4">Choose your route</h1>
 			</header>
 
 			<div className="flex-1 overflow-y-auto px-4">
-				<div className="flex flex-col gap-3">
+				<div className="flex flex-col gap-px pb-8">
 					{ROUTES.map((route) => (
 						<button
 							key={route.id}
 							onClick={() => onSelectRoute(route.id)}
-							className="flex items-stretch bg-white shadow-sm text-left min-h-[84px]"
+							className="flex items-stretch bg-transparent text-left"
 						>
-							<div className={`w-1.5 shrink-0 ${route.color}`} />
-							<div className="flex-1 p-4 flex flex-col justify-center">
-								<div className="flex flex-col">
-									{Array.isArray(route.from) ? (
-										route.from.map((stop, idx) => (
-											<span key={idx} className="text-base font-bold text-gray-900 leading-tight">{stop}</span>
-										))
-									) : (
-										<div className="flex items-center gap-2">
-											<span className="text-base font-bold text-gray-900 leading-tight">{route.from}</span>
-											{route.icon && <NavigationArrowIcon weight="fill" size={14} className="text-sky-600 -scale-x-100" />}
-										</div>
-									)}
+							<div className="w-16 shrink-0" />
+							<div className="flex-1 bg-white rounded-lg p-1 flex items-stretch mr-3">
+								<div className={`w-1.5 shrink-0 rounded-full ${route.color}`} />
+								<div className="flex-1 py-3 px-4 flex flex-col justify-center">
+									<div className="flex flex-col">
+										{Array.isArray(route.from) ? (
+											route.from.map((stop, idx) => (
+												<span key={idx} className="text-base font-bold text-gray-900 leading-tight">{stop}</span>
+											))
+										) : (
+											<div className="flex items-center gap-2">
+												<span className="text-base font-bold text-gray-900 leading-tight">{route.from}</span>
+												{route.icon && <NavigationArrowIcon weight="fill" size={14} className="text-sky-600 -scale-x-100" />}
+											</div>
+										)}
+									</div>
+									<span className="text-base font-bold text-gray-900 mt-1 leading-tight">{route.to}</span>
 								</div>
-								<span className="text-base font-bold text-gray-900 mt-1 leading-tight">{route.to}</span>
 							</div>
 						</button>
 					))}
 
 					<button
 						onClick={() => onSelectRoute('all')}
-						className="flex items-stretch bg-white shadow-sm border border-gray-100 text-left hover:bg-gray-50 transition-colors mt-2"
+						className="flex items-stretch bg-transparent text-left mt-2"
 					>
-						<div className="w-1.5 shrink-0 bg-gray-500" />
-						<div className="flex-1 p-4 flex items-center justify-between">
-							<span className="text-base font-bold text-gray-900">Show all departures</span>
-							<CaretRightIcon size={20} className="text-gray-900" weight="regular" />
+						<div className="w-16 shrink-0" />
+						<div className="flex-1 bg-white rounded-lg p-1 flex items-stretch mr-3">
+							<div className="w-1.5 shrink-0 bg-gray-500 rounded-full" />
+							<div className="flex-1 py-3 px-4 flex items-center justify-between">
+								<span className="text-base font-bold text-gray-900">Show all departures</span>
+								<CaretRightIcon size={20} className="text-gray-900" weight="regular" />
+							</div>
 						</div>
 					</button>
 				</div>
