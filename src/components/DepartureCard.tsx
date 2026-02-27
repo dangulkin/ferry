@@ -174,7 +174,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 	return (
 		<div
 			ref={outerRef}
-			className={`${isFirst ? 'sticky top-0 z-20 bg-linear-to-b from-gray-50 from-50% via-gray-50/90 to-transparent' : 'z-0 relative'}`}
+			className={`${isFirst ? 'sticky top-0 z-20 bg-linear-to-b from-app-background from-50% via-app-background/90 to-transparent' : 'z-0 relative'}`}
 		>
 			{/* Dedicated shadow div that isn't clipped by overflow-hidden */}
 			{isFirst && (
@@ -230,7 +230,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 					</div>
 
 					{/* Card container */}
-					<div className={`flex flex-1 p-1 items-stretch ${isCancelled ? 'bg-gray-50' : 'bg-white'} rounded-lg mr-3`}>
+					<div className={`flex flex-1 p-1 items-stretch ${isCancelled ? 'bg-app-background' : 'bg-white'} rounded-lg mr-3`}>
 						{/* Route color stripe */}
 						<div className={`w-1.5 shrink-0 rounded-full ${departure.color}`} />
 

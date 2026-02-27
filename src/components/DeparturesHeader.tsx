@@ -12,7 +12,7 @@ const DeparturesHeader: React.FC<DeparturesHeaderProps> = ({ isSpecificRoute, ro
 	const currentRoute = ROUTES.find(r => r.id === routeId);
 
 	return (
-		<header className="pt-safe bg-gray-50 sticky top-0 z-10">
+		<header className="pt-safe bg-app-background sticky top-0 z-10">
 			<div className="pt-4 h-[98px] py-2 flex items-center">
 				<button
 					onClick={onBack}

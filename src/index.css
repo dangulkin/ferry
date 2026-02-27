@@ -12,10 +12,11 @@
 
 @theme {
 	--font-sans: 'PT Root UI', ui-sans-serif, system-ui, sans-serif;
+	--color-app-background: var(--color-gray-100);
 }
 
 body {
-	background-color: #f9fafb;
+	background-color: var(--color-app-background);
 	overscroll-behavior: none;
 }
 
