@@ -190,7 +190,13 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 			ref={outerRef}
 			className={`${isFirst ? 'sticky top-0 z-20 bg-gray-50' : 'z-0 relative'}`}
 		>
-			{/* Sticky header doesn't need a separate shadow div anymore, we apply it to the card itself */}
+			{/* Dedicated shadow div that isn't clipped by overflow-hidden */}
+			{isFirst && (
+				<div
+					className={`absolute top-0 bottom-0 right-3 left-[64px] rounded-xl transition-shadow duration-500 pointer-events-none ${hasShadow ? 'shadow-[0_8px_20px_rgba(0,0,0,0.12)]' : ''}`}
+					style={{ zIndex: 1 }}
+				/>
+			)}
 
 			<div
 				className="relative overflow-hidden select-none bg-transparent"
@@ -239,7 +245,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 					</div>
 
 					{/* Card container */}
-					<div className={`flex flex-1 p-1 items-stretch ${isCancelled ? 'bg-gray-50' : 'bg-white'} rounded-xl mr-3 transition-shadow duration-500 ${isFirst && hasShadow ? 'shadow-[0_4px_16px_rgba(0,0,0,0.1)]' : ''}`}>
+					<div className={`flex flex-1 p-1 items-stretch ${isCancelled ? 'bg-gray-50' : 'bg-white'} rounded-xl mr-3`}>
 						{/* Route color stripe */}
 						<div className={`w-1.5 shrink-0 rounded-full ${departure.color}`} />
 
