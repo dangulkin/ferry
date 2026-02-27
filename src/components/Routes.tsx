@@ -16,10 +16,9 @@ export default function Routes({ onSelectRoute }: { onSelectRoute: (route: strin
 						<button
 							key={route.id}
 							onClick={() => onSelectRoute(route.id)}
-							className="flex items-stretch bg-transparent text-left"
+							className="flex items-stretch bg-transparent text-left min-h-[92px]"
 						>
-							<div className="w-16 shrink-0" />
-							<div className="flex-1 bg-white rounded-lg p-1 flex items-stretch mr-3">
+							<div className="flex-1 bg-white rounded-lg p-1 flex items-stretch">
 								<div className={`w-1.5 shrink-0 rounded-full ${route.color}`} />
 								<div className="flex-1 py-3 px-4 flex flex-col justify-center">
 									<div className="flex flex-col">
@@ -42,10 +41,9 @@ export default function Routes({ onSelectRoute }: { onSelectRoute: (route: strin
 
 					<button
 						onClick={() => onSelectRoute('all')}
-						className="flex items-stretch bg-transparent text-left mt-2"
+						className="flex items-stretch bg-transparent text-left mt-2 min-h-[64px]"
 					>
-						<div className="w-16 shrink-0" />
-						<div className="flex-1 bg-white rounded-lg p-1 flex items-stretch mr-3">
+						<div className="flex-1 bg-white rounded-lg p-1 flex items-stretch">
 							<div className="w-1.5 shrink-0 bg-gray-500 rounded-full" />
 							<div className="flex-1 py-3 px-4 flex items-center justify-between">
 								<span className="text-base font-bold text-gray-900">Show all departures</span>

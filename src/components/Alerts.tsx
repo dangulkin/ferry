@@ -65,14 +65,16 @@ export default function Alerts() {
 							onClick={() => setSelectedAlert(alert.id)}
 							className="flex items-stretch bg-transparent text-left"
 						>
-							<div className="w-16 shrink-0 flex flex-col items-center justify-center py-4">
-								<span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">{alert.month}</span>
-								<span className="text-xl font-bold text-gray-900 leading-tight">{alert.date}</span>
-							</div>
-							<div className="flex-1 bg-white rounded-lg p-1 flex items-stretch mr-3">
+							<div className="flex-1 bg-white rounded-lg p-1 flex items-stretch">
 								<div className={`w-1.5 shrink-0 rounded-full ${alert.color}`} />
 								<div className="flex-1 p-4 flex flex-col justify-center">
-									<h3 className="text-base font-bold text-gray-900 mb-1 leading-tight">{alert.title}</h3>
+									<div className="flex justify-between items-start mb-1">
+										<h3 className="text-base font-bold text-gray-900 leading-tight">{alert.title}</h3>
+										<div className="flex flex-col items-end shrink-0 ml-4">
+											<span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider leading-none">{alert.month}</span>
+											<span className="text-lg font-bold text-gray-900 leading-none">{alert.date}</span>
+										</div>
+									</div>
 									<p className="text-sm text-gray-500 leading-tight line-clamp-2">{alert.summary}</p>
 								</div>
 							</div>
