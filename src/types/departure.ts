@@ -11,4 +11,5 @@ export interface Departure {
 	delay?: string;
 	isCancelled?: boolean;
 	showBell?: boolean;
+	origin?: string;
 }

@@ -244,80 +244,94 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 						<span className="text-sm text-gray-500">{departure.time}</span>
 					</div>
 
-					{/* Route color stripe */}
-					<div className={`w-1.5 shrink-0 ${departure.color}`} />
+					{/* Card container */}
+					<div className={`flex flex-1 p-1 items-stretch ${isCancelled ? 'bg-gray-50/50' : 'bg-white'} rounded-xl mr-4`}>
+						{/* Route color stripe */}
+						<div className={`w-1.5 shrink-0 rounded-full ${departure.color}`} />
 
-					{/* Main content */}
-					<div className={`${isCancelled ? 'bg-gray-50' : 'bg-white'} flex-1 p-4 flex flex-col justify-center relative`}>
+						{/* Main content */}
+						<div className="flex-1 py-3 px-4 flex flex-col justify-center relative">
 
-						{/* Top row: timeUntil + destination + bell badge */}
-						<div className="flex justify-between items-center">
-							<div className="flex items-baseline gap-2">
-								<span className={`text-xl font-bold ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
-									{departure.timeUntil}
-								</span>
-								{departure.delay && (
-									<span className="text-sm font-regular text-red-600">{departure.delay}</span>
-								)}
-							</div>
-							<div className="flex items-center">
-								{!isSpecificRoute && departure.destination && (
-									<div className="flex items-center gap-1.5">
-										{departure.destination === 'Cacilhas' && (
-											<NavigationArrowIcon weight="fill" size={16} className="text-sky-600 transform -scale-x-100" />
-										)}
-										<span className={`text-sm font-bold ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
-											{departure.destination}
-										</span>
-										<LighthouseIcon size={16} weight="bold" className={isCancelled ? 'text-gray-400' : 'text-gray-900'} />
+							{/* Top row: timeUntil + destination + bell badge */}
+							<div className="flex justify-between items-center">
+								<div className="flex items-baseline gap-2">
+									<span className={`text-xl font-bold ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
+										{departure.timeUntil}
+									</span>
+									{departure.delay && (
+										<span className="text-sm font-normal text-red-600">{departure.delay}</span>
+									)}
+								</div>
+								<div className="flex items-center">
+									{!isSpecificRoute && departure.destination && (
+										<div className={`flex items-center gap-1.5 text-sm font-bold ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
+											{(() => {
+												let originStr = departure.origin;
+												if (!originStr) {
+													const d = departure.destination;
+													if (d === 'Cacilhas' || d === 'Montijo' || d === 'Seixal') originStr = 'Cais do Sodre';
+													else if (d === 'Barreiro') originStr = 'Terreiro do Paço';
+													else originStr = 'Porto-Brandão';
+												}
+												return (
+													<>
+														{originStr === 'Belém' && <NavigationArrowIcon weight="fill" size={14} className="text-sky-600" />}
+														<span>{originStr}</span>
+														<span className="mx-0.5">➔</span>
+														{departure.destination === 'Belém' && <NavigationArrowIcon weight="fill" size={14} className="text-sky-600" />}
+														<span>{departure.destination}</span>
+													</>
+												);
+											})()}
+										</div>
+									)}
+									{/* Bell badge */}
+									<div
+										style={{
+											width: subscribed ? '18px' : '0px',
+											marginLeft: subscribed ? '6px' : '0px',
+											overflow: 'hidden',
+											opacity: subscribed ? 1 : 0,
+											flexShrink: 0,
+											transition: 'width 200ms ease-out, margin-left 200ms ease-out, opacity 200ms ease-out',
+										}}
+									>
+										<BellIcon size={16} weight="fill" className="text-sky-600 block" />
 									</div>
-								)}
-								{/* Bell badge: width animates 0→18px, no layout shift when hidden */}
-								<div
-									style={{
-										width: subscribed ? '18px' : '0px',
-										marginLeft: subscribed ? '6px' : '0px',
-										overflow: 'hidden',
-										opacity: subscribed ? 1 : 0,
-										flexShrink: 0,
-										transition: 'width 200ms ease-out, margin-left 200ms ease-out, opacity 200ms ease-out',
-									}}
-								>
-									<BellIcon size={16} weight="fill" className="text-sky-600 block" />
 								</div>
 							</div>
-						</div>
 
-						{/* Bottom row: status + hall/bikes */}
-						<div className="flex justify-between items-start mt-2">
-							<div className={`flex ${isBoarding ? 'flex-col gap-2' : 'items-center gap-2'}`}>
-								<span className='text-sm text-gray-400'>
-									{departure.status}
-								</span>
-								{!isCancelled && !isBoarding && (
-									<div className={`size-2 rounded-full ${isDelayed ? 'bg-red-600' : 'bg-green-500'}`} />
-								)}
-								{isCancelled && <div className="size-2 rounded-full bg-red-400" />}
-								{isBoarding && (
-									<div className="flex items-center gap-2">
-										<CircularProgress progress={departure.progress ?? 0} />
-										<span className="text-sm font-regular text-gray-900 tracking-tight">
-											{departure.progress}%
-										</span>
-									</div>
-								)}
-							</div>
+							{/* Bottom row: status + hall/bikes */}
+							<div className="flex justify-between items-start mt-2">
+								<div className={`flex ${isBoarding ? 'flex-col gap-2' : 'items-center gap-2'}`}>
+									<span className={`text-sm font-normal ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
+										{departure.status}
+									</span>
+									{!isCancelled && !isBoarding && (
+										<div className={`size-2 rounded-full ${isDelayed ? 'bg-red-600' : 'bg-green-500'}`} />
+									)}
+									{isCancelled && <div className="size-2 rounded-full bg-red-400" />}
+									{isBoarding && (
+										<div className="flex items-center gap-2">
+											<CircularProgress progress={departure.progress ?? 0} />
+											<span className="text-sm font-bold text-gray-900 tracking-tight">
+												{departure.progress}%
+											</span>
+										</div>
+									)}
+								</div>
 
-							<div className="flex flex-col items-end gap-1">
-								<span className={`text-sm ${isCancelled ? 'text-gray-300' : 'text-gray-400'}`}>
-									{departure.hall}
-								</span>
-								{departure.bikes !== undefined && (
-									<div className="flex items-center gap-2">
-										<span className="text-sm font-regular text-gray-900">{departure.bikes}</span>
-										<BicycleIcon size={20} className="text-sky-600" weight="regular" />
-									</div>
-								)}
+								<div className="flex flex-col items-end gap-1">
+									<span className={`text-sm font-normal ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
+										{departure.hall}
+									</span>
+									{departure.bikes !== undefined && (
+										<div className="flex items-center gap-1.5">
+											<span className="text-sm font-bold text-gray-900">{departure.bikes}</span>
+											<BicycleIcon size={20} className="text-sky-600" weight="regular" />
+										</div>
+									)}
+								</div>
 							</div>
 						</div>
 					</div>
