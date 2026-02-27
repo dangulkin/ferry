@@ -27,3 +27,11 @@ body {
 .pb-safe {
 	padding-bottom: env(safe-area-inset-bottom);
 }
+
+@utility no-scrollbar {
+	&::-webkit-scrollbar {
+		display: none;
+	}
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}

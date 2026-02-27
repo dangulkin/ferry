@@ -10,7 +10,7 @@ export default function Routes({ onSelectRoute }: { onSelectRoute: (route: strin
 				<h1 className="text-2xl font-bold text-gray-900 pt-4">Choose your route</h1>
 			</header>
 
-			<div className="flex-1 overflow-y-auto px-4">
+			<div className="flex-1 overflow-y-auto no-scrollbar px-4">
 				<div className="flex flex-col gap-px pb-8">
 					{ROUTES.map((route) => (
 						<button

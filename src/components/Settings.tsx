@@ -12,7 +12,7 @@ export default function Settings() {
 				<h1 className="text-2xl font-bold text-gray-900 pt-4">Settings</h1>
 			</header>
 
-			<div className="flex-1 overflow-y-auto px-4 space-y-8">
+			<div className="flex-1 overflow-y-auto no-scrollbar px-4 space-y-8">
 
 				{/* Commutes Section */}
 				<section>

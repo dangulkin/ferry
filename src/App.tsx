@@ -28,7 +28,7 @@ export default function App() {
 
 	return (
 		<div className="fixed inset-0 left-0 right-0 mx-auto flex flex-col bg-app-background font-sans text-gray-900 max-w-md overflow-hidden shadow-xl">
-			<main className="flex-1 overflow-y-auto bg-app-background">
+			<main className="flex-1 overflow-y-auto no-scrollbar bg-app-background">
 				{renderContent()}
 			</main>
 

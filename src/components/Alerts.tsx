@@ -57,7 +57,7 @@ export default function Alerts() {
 				<h1 className="text-2xl font-bold text-gray-900 pt-4">Alerts</h1>
 			</header>
 
-			<div className="flex-1 overflow-y-auto px-4">
+			<div className="flex-1 overflow-y-auto no-scrollbar px-4">
 				<div className="flex flex-col gap-px pb-8">
 					{ALERTS.map((alert) => (
 						<button
@@ -100,7 +100,7 @@ function AlertDetail({ onBack }: { onBack: () => void }) {
 				</div>
 			</header>
 
-			<div className="flex-1 overflow-y-auto p-6">
+			<div className="flex-1 overflow-y-auto no-scrollbar p-6">
 				<span className="text-sm text-gray-500 mb-2 block">28 January 2026</span>
 				<h2 className="text-2xl font-bold text-gray-900 mb-6 leading-tight">
 					Service disruptions on Barreiro — Terreiro do Paço
