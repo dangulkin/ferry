@@ -67,14 +67,16 @@ export default function Alerts() {
 						>
 							<div className="flex-1 bg-white rounded-lg p-1 flex items-stretch">
 								<div className={`w-1.5 shrink-0 rounded-full ${alert.color}`} />
+								{/* Date Block */}
+								<div className="w-14 shrink-0 flex flex-col items-center justify-center">
+									<span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider leading-none">{alert.month}</span>
+									<span className="text-xl font-bold text-gray-900 leading-tight mt-1">{alert.date}</span>
+								</div>
+								{/* Divider */}
+								<div className="w-px my-3 bg-gray-100 shrink-0" />
+								{/* Content */}
 								<div className="flex-1 p-4 flex flex-col justify-center">
-									<div className="flex justify-between items-start mb-1">
-										<h3 className="text-base font-bold text-gray-900 leading-tight">{alert.title}</h3>
-										<div className="flex flex-col items-end shrink-0 ml-4">
-											<span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider leading-none">{alert.month}</span>
-											<span className="text-lg font-bold text-gray-900 leading-none">{alert.date}</span>
-										</div>
-									</div>
+									<h3 className="text-base font-bold text-gray-900 mb-1 leading-tight">{alert.title}</h3>
 									<p className="text-sm text-gray-500 leading-tight line-clamp-2">{alert.summary}</p>
 								</div>
 							</div>
