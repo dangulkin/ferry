@@ -131,7 +131,7 @@ export default function Departures({ selectedRoute, onSelectRoute }: DeparturesP
 			<div
 				className="flex-1 overflow-y-auto"
 			>
-				<div className="flex flex-col gap-2 pb-4">
+				<div className="flex flex-col gap-px pb-4">
 					{departures.map((dep, index) => (
 						<DepartureCard
 							key={dep.id}

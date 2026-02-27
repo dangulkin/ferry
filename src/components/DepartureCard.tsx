@@ -188,7 +188,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 	return (
 		<div
 			ref={outerRef}
-			className={`${isFirst ? 'sticky top-0 z-20' : 'z-0'}`}
+			className={`${isFirst ? 'sticky top-0 z-20 bg-gray-50' : 'z-0 relative'}`}
 		>
 			{/* Shadow div for the white body (right part) of the sticky card */}
 			{isFirst && (
@@ -210,7 +210,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 				onMouseLeave={handleMouseUp}
 			>
 				{/* ── Action panel ──────────────────────────────────────────── */}
-				<div className={`absolute right-0 top-0 bottom-0 w-16 ${panelBg} flex items-center justify-center`}>
+				<div className={`absolute right-4 top-0 bottom-0 w-16 ${panelBg} rounded-xl flex items-center justify-center`}>
 					<button
 						className="flex items-center justify-center size-full text-white"
 						style={{
@@ -245,7 +245,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 					</div>
 
 					{/* Card container */}
-					<div className={`flex flex-1 p-1 items-stretch ${isCancelled ? 'bg-gray-50/50' : 'bg-white'} rounded-xl mr-4`}>
+					<div className={`flex flex-1 p-1 items-stretch ${isCancelled ? 'bg-gray-50' : 'bg-white'} rounded-xl mr-4`}>
 						{/* Route color stripe */}
 						<div className={`w-1.5 shrink-0 rounded-full ${departure.color}`} />
 
