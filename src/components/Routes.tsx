@@ -6,7 +6,7 @@ import { ROUTES } from '../data/routes';
 export default function Routes({ onSelectRoute }: { onSelectRoute: (route: string) => void }) {
 	return (
 		<div className="flex flex-col h-full bg-app-background">
-			<header className="px-3 pt-safe pb-6 bg-app-background sticky top-0 z-10">
+			<header className="px-4 pt-safe pb-6 bg-app-background sticky top-0 z-10">
 				<h1 className="text-2xl font-bold text-gray-900 pt-4">Choose your route</h1>
 			</header>
 

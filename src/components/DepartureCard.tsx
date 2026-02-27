@@ -260,10 +260,10 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 												}
 												return (
 													<>
-														{originStr === 'Belém' && <NavigationArrowIcon weight="fill" size={14} className="text-sky-600" />}
+														{originStr === 'Belém' && <NavigationArrowIcon weight="fill" size={14} className="text-sky-600 -scale-x-100" />}
 														<span>{originStr}</span>
 														<span className="mx-1">→</span>
-														{departure.destination === 'Belém' && <NavigationArrowIcon weight="fill" size={14} className="text-sky-600" />}
+														{departure.destination === 'Belém' && <NavigationArrowIcon weight="fill" size={14} className="text-sky-600 -scale-x-100" />}
 														<span>{departure.destination}</span>
 													</>
 												);

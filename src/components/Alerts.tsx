@@ -53,7 +53,7 @@ export default function Alerts() {
 
 	return (
 		<div className="flex flex-col h-full bg-app-background">
-			<header className="px-3 pt-safe pb-6 bg-app-background sticky top-0 z-10">
+			<header className="px-4 pt-safe pb-6 bg-app-background sticky top-0 z-10">
 				<h1 className="text-2xl font-bold text-gray-900 pt-4">Alerts</h1>
 			</header>
 
@@ -91,7 +91,7 @@ export default function Alerts() {
 function AlertDetail({ onBack }: { onBack: () => void }) {
 	return (
 		<div className="flex flex-col h-full bg-white">
-			<header className="px-3 pt-safe pb-4 border-b border-gray-100 sticky top-0 bg-white z-10">
+			<header className="px-4 pt-safe pb-4 border-b border-gray-100 sticky top-0 bg-white z-10">
 				<div className="pt-4 flex items-center gap-4">
 					<button onClick={onBack} className="p-2 -ml-2 text-gray-900 hover:bg-gray-100 rounded-full transition-colors">
 						<ArrowLeft size={24} weight="regular" />
