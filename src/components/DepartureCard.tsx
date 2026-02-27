@@ -190,13 +190,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 			ref={outerRef}
 			className={`${isFirst ? 'sticky top-0 z-20 bg-gray-50' : 'z-0 relative'}`}
 		>
-			{/* Shadow div for the white body (right part) of the sticky card */}
-			{isFirst && (
-				<div
-					className={`absolute inset-y-0 right-0 left-[64px] transition-shadow duration-500 pointer-events-none ${hasShadow ? 'shadow-[0_4px_16px_rgba(0,0,0,0.1)]' : ''}`}
-					style={{ zIndex: 1 }} // Needs to be above other cards but behind this card's content? Actually z-index 1 is fine since this is inside z-20. Wait, z-index inside sticky is relative.
-				/>
-			)}
+			{/* Sticky header doesn't need a separate shadow div anymore, we apply it to the card itself */}
 
 			<div
 				className="relative overflow-hidden select-none bg-transparent"
@@ -210,7 +204,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 				onMouseLeave={handleMouseUp}
 			>
 				{/* ── Action panel ──────────────────────────────────────────── */}
-				<div className={`absolute right-4 top-0 bottom-0 w-16 ${panelBg} rounded-xl flex items-center justify-center`}>
+				<div className={`absolute right-3 top-0 bottom-0 w-16 ${panelBg} rounded-xl flex items-center justify-center`}>
 					<button
 						className="flex items-center justify-center size-full text-white"
 						style={{
@@ -245,7 +239,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 					</div>
 
 					{/* Card container */}
-					<div className={`flex flex-1 p-1 items-stretch ${isCancelled ? 'bg-gray-50' : 'bg-white'} rounded-xl mr-4`}>
+					<div className={`flex flex-1 p-1 items-stretch ${isCancelled ? 'bg-gray-50' : 'bg-white'} rounded-xl mr-3 transition-shadow duration-500 ${isFirst && hasShadow ? 'shadow-[0_4px_16px_rgba(0,0,0,0.1)]' : ''}`}>
 						{/* Route color stripe */}
 						<div className={`w-1.5 shrink-0 rounded-full ${departure.color}`} />
 
