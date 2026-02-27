@@ -45,8 +45,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 	const isDelayed = departure.status === 'Delayed';
 	const isBoarding = departure.status === 'Boarding';
 
-	// ── Scroll-driven time opacity & shadow ───────────────────────────────────
-	const [timeOpacity, setTimeOpacity] = useState(1);
+	// ── Shadow state ───────────────────────────────────
 	const [hasShadow, setHasShadow] = useState(false);
 	// Outer ref wraps the whole card (sticky + shadow live here, no overflow-hidden)
 	const outerRef = useRef<HTMLDivElement>(null);
@@ -63,20 +62,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 			const scrollTop = scrollContainer.scrollTop;
 
 			if (isFirst) {
-				// First card: always keep time visible, just add shadow
-				setTimeOpacity(1);
 				setHasShadow(scrollTop > 10);
-			} else {
-				// Non-first cards: fade time only when entering under the sticky card
-				const stickyCard = outerRef.current.parentElement?.firstElementChild as HTMLElement | null;
-				if (!stickyCard) return;
-
-				const stickyBottom = stickyCard.getBoundingClientRect().bottom;
-				const myTop = outerRef.current.getBoundingClientRect().top;
-				// overlap: how many px of this card are hidden under the sticky card
-				const overlap = stickyBottom - myTop;
-				// Fade the time label over 48px of overlap (time label is at the top of the card)
-				setTimeOpacity(Math.max(0, Math.min(1, 1 - overlap / 48)));
 			}
 		};
 
@@ -188,7 +174,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 	return (
 		<div
 			ref={outerRef}
-			className={`${isFirst ? 'sticky top-0 z-20 bg-gray-50' : 'z-0 relative'}`}
+			className={`${isFirst ? 'sticky top-0 z-20 bg-linear-to-b from-gray-50 via-gray-50/90 to-transparent' : 'z-0 relative'}`}
 		>
 			{/* Dedicated shadow div that isn't clipped by overflow-hidden */}
 			{isFirst && (
@@ -239,13 +225,12 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 					{/* Time column */}
 					<div
 						className="w-16 shrink-0 flex items-start justify-center pt-5 bg-transparent"
-						style={{ opacity: timeOpacity }}
 					>
 						<span className="text-sm text-gray-500">{departure.time}</span>
 					</div>
 
 					{/* Card container */}
-					<div className={`flex flex-1 p-1 items-stretch ${isCancelled ? 'bg-gray-50' : 'bg-white'} rounded-xl mr-3`}>
+					<div className={`flex flex-1 p-1 items-stretch ${isCancelled ? 'bg-gray-50' : 'bg-white'} rounded-lg mr-3`}>
 						{/* Route color stripe */}
 						<div className={`w-1.5 shrink-0 rounded-full ${departure.color}`} />
 
