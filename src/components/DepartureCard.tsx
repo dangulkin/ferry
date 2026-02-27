@@ -287,13 +287,13 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 							</div>
 
 							{/* Bottom row: status + hall/bikes */}
-							<div className="flex justify-between items-start mt-2">
-								<div className={`flex ${isBoarding ? 'flex-col gap-2' : 'items-center gap-2'}`}>
+							<div className="flex justify-between items-start mt-3">
+								<div className={`flex ${isBoarding ? 'flex-col gap-1' : 'items-center gap-2'}`}>
 									<span className={`text-sm font-normal ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
 										{departure.status}
 									</span>
 									{!isCancelled && !isBoarding && (
-										<div className={`size-2 rounded-full ${isDelayed ? 'bg-red-600' : 'bg-green-500'}`} />
+										<div className={`size-1.5 rounded-full ${isDelayed ? 'bg-red-600' : 'bg-green-500'}`} />
 									)}
 									{isCancelled && <div className="size-2 rounded-full bg-red-400" />}
 									{isBoarding && (
