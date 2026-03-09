@@ -227,7 +227,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 				{/* ── Action panel and Card content shared wrapper ─────────────────── */}
 				<div className="flex relative">
 					{/* Time column (remains fixed) */}
-					<div className="w-16 shrink-0 flex items-start justify-center pt-5 bg-transparent">
+					<div className="w-16 shrink-0 flex items-start justify-center pt-4 bg-transparent">
 						<span className="text-sm text-gray-500">{departure.time}</span>
 					</div>
 
@@ -259,7 +259,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 
 						{/* Card content (shrinks from the right) */}
 						<div
-							className={`flex flex-1 p-1 items-stretch ${isCancelled ? 'bg-app-background' : 'bg-white'} relative`}
+							className={`flex flex-1 p-2 items-stretch ${isCancelled ? 'bg-app-background' : 'bg-white'} relative`}
 							style={{
 								zIndex: 2,
 								marginRight: `${-dragX}px`,
@@ -270,7 +270,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 							<div className={`w-1.5 shrink-0 rounded-full ${departure.color}`} />
 
 							{/* Main content */}
-							<div className="flex-1 py-3 px-2 flex flex-col justify-center relative">
+							<div className="flex-1 py-2 px-2 flex flex-col justify-center relative">
 
 								{/* Top row: timeUntil + destination + bell badge */}
 								<div className="flex justify-between items-start">
