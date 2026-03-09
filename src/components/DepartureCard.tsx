@@ -38,9 +38,11 @@ interface DepartureCardProps {
 	departure: Departure;
 	isSpecificRoute: boolean;
 	isFirst?: boolean;
+	isOpen: boolean;
+	onToggle: (isOpen: boolean) => void;
 }
 
-const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRoute, isFirst }) => {
+const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRoute, isFirst, isOpen, onToggle }) => {
 	const isCancelled = departure.isCancelled;
 	const isDelayed = departure.status === 'Delayed';
 	const isBoarding = departure.status === 'Boarding';
@@ -84,6 +86,14 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 	const [animating, setAnimating] = useState(false);
 	const openness = Math.abs(dragX) / PANEL_WIDTH;
 
+	// Close card if isOpen becomes false from parent
+	useEffect(() => {
+		if (!isOpen && dragX !== 0) {
+			setAnimating(true);
+			setDragX(0);
+		}
+	}, [isOpen]);
+
 	// ── Touch tracking ────────────────────────────────────────────────────────
 	const touchStartX = useRef<number | null>(null);
 	const touchStartY = useRef<number | null>(null);
@@ -99,6 +109,9 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 		dragXAtStart.current = dragX;
 		isScrolling.current = null;
 		setAnimating(false);
+		
+		// If another card is open, we don't close it yet to allow smooth interaction,
+		// but we might want to signal that this card is potentially becoming active.
 	};
 
 	const handleTouchMove = (e: React.TouchEvent) => {
@@ -128,7 +141,15 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 		const snapOpen =
 			velocity < -VELOCITY_THRESHOLD ||
 			(velocity > VELOCITY_THRESHOLD ? false : currentX < -PANEL_WIDTH / 2);
-		setDragX(snapOpen ? -PANEL_WIDTH : 0);
+		
+		if (snapOpen) {
+			setDragX(-PANEL_WIDTH);
+			onToggle(true);
+		} else {
+			setDragX(0);
+			onToggle(false);
+		}
+		
 		touchStartX.current = null;
 		touchStartY.current = null;
 		isScrolling.current = null;
@@ -150,7 +171,14 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 	const handleMouseUp = (e: React.MouseEvent) => {
 		if (mouseStartX.current === null) return;
 		setAnimating(true);
-		setDragX((e.clientX - mouseStartX.current) < -PANEL_WIDTH / 4 ? -PANEL_WIDTH : 0);
+		const snapOpen = (e.clientX - mouseStartX.current) < -PANEL_WIDTH / 4;
+		if (snapOpen) {
+			setDragX(-PANEL_WIDTH);
+			onToggle(true);
+		} else {
+			setDragX(0);
+			onToggle(false);
+		}
 		mouseStartX.current = null;
 	};
 
@@ -162,6 +190,7 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 		setSubscribed(nextSubscribed);
 		setAnimating(true);
 		setDragX(0);
+		onToggle(false);
 		colorUpdateTimer.current = setTimeout(() => {
 			setPanelIsUnsubscribe(nextSubscribed);
 		}, CLOSE_DURATION_MS);
@@ -195,127 +224,134 @@ const DepartureCard: React.FC<DepartureCardProps> = ({ departure, isSpecificRout
 				onMouseUp={handleMouseUp}
 				onMouseLeave={handleMouseUp}
 			>
-				{/* ── Action panel ──────────────────────────────────────────── */}
-				<div className={`absolute right-3 top-0 bottom-0 w-16 ${panelBg} rounded-xl flex items-center justify-center`}>
-					<button
-						className="flex items-center justify-center size-full text-white"
-						style={{
-							transform: `scale(${bellScale})`,
-							transition: animating ? `transform ${CLOSE_DURATION_MS}ms ease-out` : 'none',
-							pointerEvents: openness > 0.5 ? 'auto' : 'none',
-						}}
-						onClick={handleBellClick}
-					>
-						{panelIsUnsubscribe
-							? <BellSlashIcon size={24} weight="fill" />
-							: <BellIcon size={24} weight="fill" />
-						}
-					</button>
-				</div>
-
-				{/* ── Card content ───────────────────────────────────────────── */}
-				<div
-					className="flex relative"
-					style={{
-						transform: `translateX(${dragX}px)`,
-						transition: animating ? `transform ${CLOSE_DURATION_MS}ms ease-out` : 'none',
-						backgroundColor: 'inherit',
-					}}
-				>
-					{/* Time column */}
-					<div
-						className="w-16 shrink-0 flex items-start justify-center pt-5 bg-transparent"
-					>
+				{/* ── Action panel and Card content shared wrapper ─────────────────── */}
+				<div className="flex relative">
+					{/* Time column (remains fixed) */}
+					<div className="w-16 shrink-0 flex items-start justify-center pt-5 bg-transparent">
 						<span className="text-sm text-gray-500">{departure.time}</span>
 					</div>
 
-					{/* Card container */}
-					<div className={`flex flex-1 p-1 items-stretch ${isCancelled ? 'bg-app-background' : 'bg-white'} rounded-lg mr-3`}>
-						{/* Route color stripe */}
-						<div className={`w-1.5 shrink-0 rounded-full ${departure.color}`} />
+					{/* Shared container with rounded corners and overflow hidden */}
+					<div 
+						className="flex flex-1 mr-3 rounded-xl overflow-hidden relative"
+						style={{ height: 'min-content' }}
+					>
+						{/* Action panel (revealed as the card shrinks) */}
+						<div 
+							className={`absolute right-0 top-0 bottom-0 w-16 ${panelBg} flex items-center justify-center`}
+							style={{ zIndex: 1 }}
+						>
+							<button
+								className="flex items-center justify-center size-full text-white"
+								style={{
+									transform: `scale(${bellScale})`,
+									transition: animating ? `transform ${CLOSE_DURATION_MS}ms ease-out` : 'none',
+									pointerEvents: openness > 0.5 ? 'auto' : 'none',
+								}}
+								onClick={handleBellClick}
+							>
+								{panelIsUnsubscribe
+									? <BellSlashIcon size={24} weight="fill" />
+									: <BellIcon size={24} weight="fill" />
+								}
+							</button>
+						</div>
 
-						{/* Main content */}
-						<div className="flex-1 py-3 px-2 flex flex-col justify-center relative">
+						{/* Card content (shrinks from the right) */}
+						<div
+							className={`flex flex-1 p-1 items-stretch ${isCancelled ? 'bg-app-background' : 'bg-white'} relative`}
+							style={{
+								zIndex: 2,
+								marginRight: `${-dragX}px`,
+								transition: animating ? `margin-right ${CLOSE_DURATION_MS}ms ease-out` : 'none',
+							}}
+						>
+							{/* Route color stripe */}
+							<div className={`w-1.5 shrink-0 rounded-full ${departure.color}`} />
 
-							{/* Top row: timeUntil + destination + bell badge */}
-							<div className="flex justify-between items-start">
-								<div className="flex flex-col items-baseline gap-0">
-									<span className={`text-xl leading-5 font-bold ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
-										{departure.timeUntil}
-									</span>
-									{departure.delay && (
-										<span className="text-sm font-normal text-red-600">{departure.delay}</span>
-									)}
-								</div>
-								<div className="flex items-center">
-									{!isSpecificRoute && departure.destination && (
-										<div className={`flex items-center gap-0.5 text-sm font-normal ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
-											{(() => {
-												let originStr = departure.origin;
-												if (!originStr) {
-													const d = departure.destination;
-													if (d === 'Cacilhas' || d === 'Montijo' || d === 'Seixal') originStr = 'Cais do Sodre';
-													else if (d === 'Barreiro') originStr = 'Terreiro do Paço';
-													else originStr = 'Porto-Brandão';
-												}
-												return (
-													<>
-														{originStr === 'Belém' && <NavigationArrowIcon weight="fill" size={14} className="text-sky-600 -scale-x-100" />}
-														<span>{originStr}</span>
-														<span className="mx-1">→</span>
-														{departure.destination === 'Belém' && <NavigationArrowIcon weight="fill" size={14} className="text-sky-600 -scale-x-100" />}
-														<span>{departure.destination}</span>
-													</>
-												);
-											})()}
+							{/* Main content */}
+							<div className="flex-1 py-3 px-2 flex flex-col justify-center relative">
+
+								{/* Top row: timeUntil + destination + bell badge */}
+								<div className="flex justify-between items-start">
+									<div className="flex flex-col items-baseline gap-0">
+										<span className={`text-xl leading-5 font-bold ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
+											{departure.timeUntil}
+										</span>
+										{departure.delay && (
+											<span className="text-sm font-normal text-red-600">{departure.delay}</span>
+										)}
+									</div>
+									<div className="flex items-center">
+										{!isSpecificRoute && departure.destination && (
+											<div className={`flex items-center gap-0.5 text-sm font-normal ${isCancelled ? 'text-gray-400' : 'text-gray-900'}`}>
+												{(() => {
+													let originStr = departure.origin;
+													if (!originStr) {
+														const d = departure.destination;
+														if (d === 'Cacilhas' || d === 'Montijo' || d === 'Seixal') originStr = 'Cais do Sodre';
+														else if (d === 'Barreiro') originStr = 'Terreiro do Paço';
+														else originStr = 'Porto-Brandão';
+													}
+													return (
+														<>
+															{originStr === 'Belém' && <NavigationArrowIcon weight="fill" size={14} className="text-sky-600 -scale-x-100" />}
+															<span>{originStr}</span>
+															<span className="mx-1">→</span>
+															{departure.destination === 'Belém' && <NavigationArrowIcon weight="fill" size={14} className="text-sky-600 -scale-x-100" />}
+															<span>{departure.destination}</span>
+														</>
+													);
+												})()}
+											</div>
+										)}
+										{/* Bell badge */}
+										<div
+											style={{
+												width: subscribed ? '18px' : '0px',
+												marginLeft: subscribed ? '6px' : '0px',
+												overflow: 'hidden',
+												opacity: subscribed ? 1 : 0,
+												flexShrink: 0,
+												transition: 'width 200ms ease-out, margin-left 200ms ease-out, opacity 200ms ease-out',
+											}}
+										>
+											<BellIcon size={16} weight="fill" className="text-sky-600 block" />
 										</div>
-									)}
-									{/* Bell badge */}
-									<div
-										style={{
-											width: subscribed ? '18px' : '0px',
-											marginLeft: subscribed ? '6px' : '0px',
-											overflow: 'hidden',
-											opacity: subscribed ? 1 : 0,
-											flexShrink: 0,
-											transition: 'width 200ms ease-out, margin-left 200ms ease-out, opacity 200ms ease-out',
-										}}
-									>
-										<BellIcon size={16} weight="fill" className="text-sky-600 block" />
 									</div>
 								</div>
-							</div>
 
-							{/* Bottom row: status + hall/bikes */}
-							<div className="flex justify-between items-start mt-3">
-								<div className={`flex ${isBoarding ? 'flex-col gap-1' : 'items-center gap-2'}`}>
-									<span className={`text-sm font-normal ${isCancelled ? 'text-gray-400' : 'text-gray-500'}`}>
-										{departure.status}
-									</span>
-									{!isCancelled && !isBoarding && (
-										<div className={`size-1.5 rounded-full ${isDelayed ? 'bg-red-600' : 'bg-green-500'}`} />
-									)}
-									{isCancelled && <div className="size-2 rounded-full bg-red-400" />}
-									{isBoarding && (
-										<div className="flex items-center gap-2">
-											<CircularProgress progress={departure.progress ?? 0} />
-											<span className="text-sm font-normal text-gray-900 tracking-tight">
-												{departure.progress}%
-											</span>
-										</div>
-									)}
-								</div>
+								{/* Bottom row: status + hall/bikes */}
+								<div className="flex justify-between items-start mt-3">
+									<div className={`flex ${isBoarding ? 'flex-col gap-1' : 'items-center gap-2'}`}>
+										<span className={`text-sm font-normal ${isCancelled ? 'text-gray-400' : 'text-gray-500'}`}>
+											{departure.status}
+										</span>
+										{!isCancelled && !isBoarding && (
+											<div className={`size-1.5 rounded-full ${isDelayed ? 'bg-red-600' : 'bg-green-500'}`} />
+										)}
+										{isCancelled && <div className="size-2 rounded-full bg-red-400" />}
+										{isBoarding && (
+											<div className="flex items-center gap-2">
+												<CircularProgress progress={departure.progress ?? 0} />
+												<span className="text-sm font-normal text-gray-900 tracking-tight">
+													{departure.progress}%
+												</span>
+											</div>
+										)}
+									</div>
 
-								<div className="flex flex-col items-end gap-1">
-									<span className={`text-sm font-normal ${isCancelled ? 'text-gray-400' : 'text-gray-500'}`}>
-										{departure.hall}
-									</span>
-									{departure.bikes !== undefined && (
-										<div className="flex items-center gap-1.5">
-											<span className="text-sm font-normal text-gray-900">{departure.bikes}</span>
-											<BicycleIcon size={20} className="text-sky-600" weight="regular" />
-										</div>
-									)}
+									<div className="flex flex-col items-end gap-1">
+										<span className={`text-sm font-normal ${isCancelled ? 'text-gray-400' : 'text-gray-500'}`}>
+											{departure.hall}
+										</span>
+										{departure.bikes !== undefined && (
+											<div className="flex items-center gap-1.5">
+												<span className="text-sm font-normal text-gray-900">{departure.bikes}</span>
+												<BicycleIcon size={20} className="text-sky-600" weight="regular" />
+											</div>
+										)}
+									</div>
 								</div>
 							</div>
 						</div>

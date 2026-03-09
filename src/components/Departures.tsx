@@ -1,7 +1,9 @@
+import React, { useState } from 'react';
 import type { Departure } from '../types/departure';
 import DeparturesHeader from './DeparturesHeader';
 import AlertBanner from './AlertBanner';
 import DepartureCard from './DepartureCard';
+import { ROUTES } from '../data/routes';
 
 // ── Mock data ─────────────────────────────────────────────────────────────────
 
@@ -82,32 +84,25 @@ const MOCK_ROUTE_DEPARTURES: Departure[] = [
 interface DeparturesProps {
 	selectedRoute: string | null;
 	onSelectRoute: () => void;
+	onSwapDirection?: () => void;
 }
 
-export default function Departures({ selectedRoute, onSelectRoute }: DeparturesProps) {
-	const isSpecificRoute = !!(selectedRoute && selectedRoute !== 'all' && selectedRoute !== '');
+export default function Departures({ selectedRoute, onSelectRoute, onSwapDirection }: DeparturesProps) {
+	const isSpecificRoute = !!(selectedRoute && selectedRoute !== 'all');
+	const [openCardId, setOpenCardId] = useState<string | null>(null);
 
 	// Filtering logic based on selectedRoute (which is the route id)
 	const getDepartures = () => {
 		if (!isSpecificRoute) return MOCK_DEPARTURES;
 
-		const routeNames: Record<string, string> = {
-			'1': 'Cacilhas',
-			'2': 'Barreiro',
-			'3': 'Montijo',
-			'4': 'Seixal',
-			'5': 'Belém'
-		};
+		const currentRoute = ROUTES.find(r => r.id === selectedRoute);
+		if (!currentRoute) return MOCK_DEPARTURES;
 
-		const destName = routeNames[selectedRoute!];
-		if (!destName) return MOCK_DEPARTURES;
+		const destName = currentRoute.to;
+		const fromNames = Array.isArray(currentRoute.from) ? currentRoute.from : [currentRoute.from];
 
-		// When specific route is selected, we usually want to see departures for that route specifically.
-		// For demo purposes, we can filter MOCK_DEPARTURES or use a specialized mock.
-		// Let's filter MOCK_DEPARTURES to make it dynamic.
-		// Let's filter MOCK_DEPARTURES to make it dynamic.
 		return MOCK_DEPARTURES.filter(d => {
-			if (destName === 'Belém') {
+			if (currentRoute.id === '5') {
 				// For the orange three-stop route, any destination in the route is a match
 				return d.destination === 'Belém' || d.destination === 'Trafaria' || d.destination === 'Porto Brandão';
 			}
@@ -119,7 +114,7 @@ export default function Departures({ selectedRoute, onSelectRoute }: DeparturesP
 
 	return (
 		<div className="flex flex-col gap-4 h-full bg-app-background">
-			<DeparturesHeader isSpecificRoute={isSpecificRoute} routeId={selectedRoute} onBack={onSelectRoute} />
+			<DeparturesHeader isSpecificRoute={isSpecificRoute} routeId={selectedRoute} onBack={onSelectRoute} onSwapDirection={onSwapDirection} />
 
 			<AlertBanner
 				month="Jan"
@@ -138,6 +133,8 @@ export default function Departures({ selectedRoute, onSelectRoute }: DeparturesP
 							departure={dep}
 							isSpecificRoute={isSpecificRoute}
 							isFirst={index === 0}
+							isOpen={openCardId === dep.id}
+							onToggle={(isOpen) => setOpenCardId(isOpen ? dep.id : null)}
 						/>
 					))}
 				</div>

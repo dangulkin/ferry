@@ -6,9 +6,10 @@ interface DeparturesHeaderProps {
 	isSpecificRoute: boolean;
 	routeId: string | null;
 	onBack: () => void;
+	onSwapDirection?: () => void;
 }
 
-const DeparturesHeader: React.FC<DeparturesHeaderProps> = ({ isSpecificRoute, routeId, onBack }) => {
+const DeparturesHeader: React.FC<DeparturesHeaderProps> = ({ isSpecificRoute, routeId, onBack, onSwapDirection }) => {
 	const currentRoute = ROUTES.find(r => r.id === routeId);
 
 	return (
@@ -39,7 +40,10 @@ const DeparturesHeader: React.FC<DeparturesHeaderProps> = ({ isSpecificRoute, ro
 									<h2 className="text-2xl font-bold text-gray-900 leading-tight">{currentRoute.to}</h2>
 								</div>
 							</div>
-							<button className="size-10 mx-3 shrink-0 flex items-center justify-center text-gray-900 hover:bg-gray-200 rounded-full">
+							<button 
+								onClick={onSwapDirection}
+								className="size-10 mx-3 shrink-0 flex items-center justify-center text-gray-900 hover:bg-gray-200 rounded-full"
+							>
 								<ArrowsDownUpIcon size={24} weight="bold" />
 							</button>
 						</div>

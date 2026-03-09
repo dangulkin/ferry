@@ -65,7 +65,13 @@ export default function App() {
 	const renderContent = () => {
 		switch (activeTab) {
 			case 'departures':
-				return <Departures selectedRoute={selectedRoute} onSelectRoute={() => changeTab('routes')} />;
+				return (
+					<Departures 
+						selectedRoute={selectedRoute} 
+						onSelectRoute={() => changeTab('routes')} 
+						onSwapDirection={() => console.log('Swap direction')}
+					/>
+				);
 			case 'routes':
 				return <Routes onSelectRoute={(route) => { setSelectedRoute(route); changeTab('departures'); }} />;
 			case 'alerts':
@@ -73,7 +79,13 @@ export default function App() {
 			case 'settings':
 				return <Settings />;
 			default:
-				return <Departures selectedRoute={selectedRoute} onSelectRoute={() => changeTab('routes')} />;
+				return (
+					<Departures 
+						selectedRoute={selectedRoute} 
+						onSelectRoute={() => changeTab('routes')} 
+						onSwapDirection={() => console.log('Swap direction')}
+					/>
+				);
 		}
 	};
 
