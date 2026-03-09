@@ -123,11 +123,11 @@ function Toggle({ checked, onChange }: { checked: boolean, onChange: (checked: b
 	return (
 		<button
 			onClick={() => onChange(!checked)}
-			className={`w-12 h-7 rounded-full p-1 transition-colors duration-200 ease-in-out ${checked ? 'bg-green-500' : 'bg-gray-200'
+			className={`relative w-[64px] h-[28px] rounded-full p-[2px] transition-colors duration-200 ease-in-out ${checked ? 'bg-[#34C759]' : 'bg-[#E9E9EB]'
 				}`}
 		>
 			<div
-				className={`w-5 h-5 bg-white rounded-full shadow-sm transform transition-transform duration-200 ease-in-out ${checked ? 'translate-x-5' : 'translate-x-0'
+				className={`h-[24px] bg-white rounded-full shadow-sm transform transition-all duration-200 ease-in-out ${checked ? 'translate-x-[22px] w-[38px]' : 'translate-x-0 w-[38px]'
 					}`}
 			/>
 		</button>
